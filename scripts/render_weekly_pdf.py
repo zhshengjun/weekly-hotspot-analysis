@@ -12,7 +12,6 @@ from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import mm
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.cidfonts import UnicodeCIDFont
-from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import Flowable, Paragraph, SimpleDocTemplate, Spacer
 
 
@@ -22,6 +21,41 @@ DEFAULT_STYLE_PATH = ROOT / "references" / "pdf-style-template.json"
 
 def load_json(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def validate_report(report: dict) -> None:
+    errors = []
+    if not isinstance(report, dict):
+        raise ValueError("Invalid report JSON:\n- root must be an object")
+    for key in ("title", "core_summary", "sections", "overall_judgment"):
+        value = report.get(key)
+        if not value:
+            errors.append(f"missing {key}")
+    if not isinstance(report.get("core_summary"), list):
+        errors.append("core_summary must be a non-empty list")
+    sections = report.get("sections")
+    if not isinstance(sections, list) or not sections:
+        errors.append("sections must be a non-empty list")
+        sections = []
+    for section_index, section in enumerate(sections, 1):
+        if not isinstance(section, dict):
+            errors.append(f"sections[{section_index}] must be an object")
+            continue
+        if not pick(section, "title", "category"):
+            errors.append(f"sections[{section_index}] missing title")
+        items = section.get("items")
+        if not isinstance(items, list) or not items:
+            errors.append(f"sections[{section_index}] missing items")
+            continue
+        for item_index, item in enumerate(items, 1):
+            if not isinstance(item, dict):
+                errors.append(f"sections[{section_index}].items[{item_index}] must be an object")
+                continue
+            for key in ("title", "source_name", "source_url", "published_at", "ai_summary"):
+                if not pick(item, key):
+                    errors.append(f"sections[{section_index}].items[{item_index}] missing {key}")
+    if errors:
+        raise ValueError("Invalid report JSON:\n- " + "\n- ".join(errors))
 
 
 def hex_color(value: str):
@@ -73,19 +107,9 @@ def slugify(value: str) -> str:
 
 def register_font(style: dict) -> str:
     font = style.get("font", {})
-    name = font.get("name", "ReportFont")
-    for candidate in font.get("candidates", []):
-        path = Path(candidate).expanduser()
-        if not path.exists():
-            continue
-        try:
-            pdfmetrics.registerFont(TTFont(name, str(path)))
-            return name
-        except Exception:
-            continue
-    fallback = font.get("fallback_cid", "STSong-Light")
-    pdfmetrics.registerFont(UnicodeCIDFont(fallback))
-    return fallback
+    name = font.get("name", "STSong-Light")
+    pdfmetrics.registerFont(UnicodeCIDFont(name))
+    return name
 
 
 def mm_box(margins: dict) -> tuple[float, float, float, float]:
@@ -353,6 +377,7 @@ def build_story(report: dict, style: dict, font_name: str) -> list:
 
 def render(report_path: Path, output_path: Path | None, style_path: Path) -> Path:
     report = load_json(report_path)
+    validate_report(report)
     style = load_json(style_path)
     font_name = register_font(style)
     output_name = slugify(pick(report, "title")) or slugify(report_path.stem) or "weekly-report"

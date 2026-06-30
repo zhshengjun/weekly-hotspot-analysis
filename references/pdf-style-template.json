@@ -9,13 +9,7 @@
     }
   },
   "font": {
-    "name": "ReportFont",
-    "fallback_cid": "STSong-Light",
-    "candidates": [
-      "/Library/Fonts/Arial Unicode.ttf",
-      "/System/Library/Fonts/STHeiti Medium.ttc",
-      "/System/Library/Fonts/Hiragino Sans GB.ttc"
-    ]
+    "name": "STSong-Light"
   },
   "colors": {
     "text": "#44536a",

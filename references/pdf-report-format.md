@@ -4,6 +4,22 @@
 
 ## 运行命令
 
+优先使用跨环境包装脚本；它会寻找带 `reportlab` 的 Python runtime，再调用固定 renderer：
+
+```bash
+scripts/render_pdf.sh examples/sample-weekly-report.json output/pdf/sample-weekly-report.pdf
+```
+
+Windows PowerShell 使用：
+
+```powershell
+scripts\render_pdf.ps1 examples\sample-weekly-report.json output\pdf\sample-weekly-report.pdf
+```
+
+如果当前环境没有带 `reportlab` 的 Python，包装脚本会失败；此时按 Markdown 降级交付，不要声称 PDF 已生成。
+
+底层 renderer 仍可直接调用：
+
 ```bash
 python3 scripts/render_weekly_pdf.py examples/sample-weekly-report.json
 python3 scripts/render_weekly_pdf.py report.json -o output/pdf/report.pdf
@@ -16,7 +32,7 @@ python3 scripts/render_weekly_pdf.py report.json -o output/pdf/report.pdf
 用户要求 PDF 时，生成 Markdown/JSON 不是完成状态。必须执行 renderer 并确认 PDF 文件存在：
 
 ```bash
-python3 scripts/render_weekly_pdf.py report.json -o output/pdf/report.pdf
+scripts/render_pdf.sh report.json output/pdf/report.pdf
 test -f output/pdf/report.pdf
 ```
 
@@ -26,7 +42,7 @@ test -f output/pdf/report.pdf
 python3 -c "import pdfplumber; text='\\n'.join(p.extract_text() or '' for p in pdfplumber.open('output/pdf/report.pdf').pages); assert '本周热点分析' in text"
 ```
 
-如果运行环境没有 Python、文件系统、命令执行能力，或无法使用 `reportlab`，只能交付报告正文降级结果，并在最终回复中明确说明无法在当前环境直接生成 PDF 文件。
+如果运行环境没有 Python、文件系统、命令执行能力，或无法使用 `reportlab`，只能交付报告正文降级结果，并在最终回复中明确说明无法在当前环境直接生成 PDF 文件。不要在线安装依赖、切换到 HTML/Word/LaTeX 或让 agent 自行设计 PDF。
 
 ## 报告 JSON
 
@@ -62,7 +78,7 @@ python3 -c "import pdfplumber; text='\\n'.join(p.extract_text() or '' for p in p
 
 ## 样式模板
 
-`references/pdf-style-template.json` 只保存视觉配置：页面边距、字体候选、标题区颜色和栏目色板。字体优先使用模板中的本地字体；找不到时回退到 ReportLab 内置 CID 字体 `STSong-Light`，保证中文 PDF 可生成。
+`references/pdf-style-template.json` 只保存视觉配置：页面边距、ReportLab CID 字体名、标题区颜色和栏目色板。默认使用内置 CID 字体 `STSong-Light`，保证中文 PDF 可生成且不依赖操作系统字体路径。
 
 ## 版式口径
 

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "low_altitude_default_chat",
+    "prompt": "给我生成一份最新的低空经济周报",
+    "delivery": "chat_markdown",
+    "checks": ["uses_recent_period", "keeps_original_source_links", "includes_published_at", "has_3_to_6_categories"]
+  },
+  {
+    "id": "unpreset_domain_default_chat",
+    "prompt": "帮我做一份本周固废资源化领域热点分析",
+    "delivery": "chat_markdown",
+    "checks": ["semantic_query_expansion", "does_not_force_zhejiang_scope", "keeps_original_source_links"]
+  },
+  {
+    "id": "sparse_week_disclosure",
+    "prompt": "给我生成一份本周县域冷链物流政策周报",
+    "delivery": "chat_markdown",
+    "checks": ["expands_search_before_declaring_sparse", "does_not_fabricate_items", "explains_sparse_verified_news_when_needed"]
+  },
+  {
+    "id": "pdf_delivery",
+    "prompt": "生成一份低空经济本周热点分析 PDF",
+    "delivery": "pdf",
+    "checks": ["uses_wrapper_script", "renders_pdf_file", "validates_pdf_exists", "does_not_stop_at_markdown_or_json"]
+  }
+]
