@@ -1,0 +1,52 @@
+# PDF 周报格式
+
+当用户明确要求 PDF 时，先按 `SKILL.md` 完成资讯抓取、核验、去重、分类和摘要，再把最终报告整理为结构化 JSON，交给 `scripts/render_weekly_pdf.py` 生成 PDF。
+
+## 运行命令
+
+```bash
+python3 scripts/render_weekly_pdf.py examples/sample-weekly-report.json
+python3 scripts/render_weekly_pdf.py report.json -o output/pdf/report.pdf
+```
+
+默认样式来自 `references/pdf-style-template.json`，不依赖外部项目、浏览器或 HTML/CSS。
+
+## 报告 JSON
+
+```json
+{
+  "title": "本周热点分析",
+  "domain": "示例领域",
+  "period_start": "2026-06-23",
+  "period_end": "2026-06-30",
+  "core_summary": ["短结论 1", "短结论 2"],
+  "weekly_focus": ["焦点事项及入选原因"],
+  "sections": [
+    {
+      "title": "分类名",
+      "analysis": "150 到 250 字分类分析。",
+      "items": [
+        {
+          "title": "资讯标题",
+          "published_at": "2026-06-30",
+          "source_name": "原始来源",
+          "source_url": "https://example.com",
+          "ai_summary": "单条 AI 摘要。",
+          "importance": "高"
+        }
+      ]
+    }
+  ],
+  "overall_judgment": "总体判断。"
+}
+```
+
+分类由实际领域和本周资讯决定，通常 3 到 6 类，不写死业务栏目。PDF 不单独生成来源明细表；每条动态标题后的来源名称是可点击超链接。
+
+## 样式模板
+
+`references/pdf-style-template.json` 只保存视觉配置：页面边距、字体候选、标题区颜色和栏目色板。字体优先使用模板中的本地字体；找不到时回退到 ReportLab 内置 CID 字体 `STSong-Light`，保证中文 PDF 可生成。
+
+## 版式口径
+
+PDF 参考低空经济周报的视觉语言：圆角蓝色标题区、不对称圆角栏目标题、左侧日期徽章、动态条目、标题来源链接和虚线分隔。不要把外部参考项目里的业务模块搬进来；当前 skill 没有的模块不需要新增。

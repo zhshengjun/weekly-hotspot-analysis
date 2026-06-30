@@ -1,3 +1,6 @@
 .DS_Store
 .playwright-mcp/
-SKILL_副本.md
+__pycache__/
+*.pyc
+output/
+tmp/
