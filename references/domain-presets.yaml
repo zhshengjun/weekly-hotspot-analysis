@@ -1,0 +1,112 @@
+# ponytail: human-readable config is enough; add schema/parser only when runtime validation is needed.
+domain_presets:
+  - domain: 低空经济
+    aliases: [低空经济, 低空物流, 通用航空, 无人机, eVTOL]
+    seed_sources:
+      - name: 中国民用航空局
+        sites: [www.caac.gov.cn]
+      - name: 国家发展改革委
+        sites: [www.ndrc.gov.cn]
+      - name: 工业和信息化部
+        sites: [www.miit.gov.cn]
+      - name: 地方政府
+        sites: []
+      - name: 地方发改委
+        sites: []
+      - name: 地方交通运输厅
+        sites: []
+      - name: 新华网
+        sites: [www.xinhuanet.com]
+      - name: 中国新闻网
+        sites: [www.chinanews.com.cn, www.chinanews.com]
+      - name: 中国民航网
+        sites: [www.caacnews.com.cn]
+      - name: 交易所公告
+        sites: [www.sse.com.cn, www.szse.cn, www.bse.cn]
+    seed_queries: [无人机, eVTOL, 通航, 空域管理, 适航, 低空物流, 起降点, 招标中标]
+  - domain: 新能源
+    aliases: [新能源, 新型能源, 新型电力系统, 绿电]
+    seed_sources:
+      - name: 国家能源局
+        sites: [www.nea.gov.cn]
+      - name: 国家发展改革委
+        sites: [www.ndrc.gov.cn]
+      - name: 工业和信息化部
+        sites: [www.miit.gov.cn]
+      - name: 生态环境部
+        sites: [www.mee.gov.cn]
+      - name: 电网企业
+        sites: [www.sgcc.com.cn]
+      - name: 电力交易机构
+        sites: []
+      - name: 中国电力企业联合会
+        sites: [www.cec.org.cn]
+      - name: 交易所公告
+        sites: [www.sse.com.cn, www.szse.cn, www.bse.cn]
+      - name: 主流能源媒体
+        sites: []
+    seed_queries: [光伏, 风电, 储能, 氢能, 充换电, 绿电交易, 新型电力系统]
+  - domain: 固态电池
+    aliases: [固态电池, 半固态电池, 全固态电池, 固态锂电池]
+    seed_sources:
+      - name: 工业和信息化部
+        sites: [www.miit.gov.cn]
+      - name: 科学技术部
+        sites: [www.most.gov.cn]
+      - name: 交易所公告
+        sites: [www.sse.com.cn, www.szse.cn, www.bse.cn]
+      - name: 汽车行业协会
+        sites: [www.caam.org.cn]
+      - name: 电池行业协会
+        sites: [www.ciaps.org.cn]
+      - name: 头部企业官网
+        sites: []
+      - name: 头部企业公告
+        sites: []
+      - name: 主流产业媒体
+        sites: []
+    seed_queries: [半固态, 全固态, 硫化物, 氧化物, 聚合物, 装车, 量产线, 融资]
+  - domain: 共同富裕
+    aliases: [共同富裕, 共富, 扩中提低, 城乡融合]
+    seed_sources:
+      - name: 国家发展改革委
+        sites: [www.ndrc.gov.cn]
+      - name: 财政部
+        sites: [www.mof.gov.cn]
+      - name: 农业农村部
+        sites: [www.moa.gov.cn]
+      - name: 民政部
+        sites: [www.mca.gov.cn]
+      - name: 国家统计局
+        sites: [www.stats.gov.cn]
+      - name: 浙江省政府
+        sites: [www.zj.gov.cn]
+      - name: 浙江省发展改革委
+        sites: [fzggw.zj.gov.cn]
+      - name: 地方政府
+        sites: []
+      - name: 新华社
+        sites: [www.xinhuanet.com]
+      - name: 人民日报
+        sites: [www.people.com.cn]
+    seed_queries: [收入分配, 扩中提低, 县域经济, 城乡融合, 公共服务, 乡村振兴]
+  - domain: 水利水电
+    aliases: [水利水电, 水利, 水电, 抽水蓄能, 国家水网]
+    seed_sources:
+      - name: 水利部
+        sites: [www.mwr.gov.cn]
+      - name: 国家能源局
+        sites: [www.nea.gov.cn]
+      - name: 国家发展改革委
+        sites: [www.ndrc.gov.cn]
+      - name: 流域水利委员会
+        sites: [www.cjw.gov.cn, www.yrcc.gov.cn]
+      - name: 地方水利厅
+        sites: []
+      - name: 三峡集团
+        sites: [www.ctg.com.cn]
+      - name: 水电央企
+        sites: []
+      - name: 中国水利报
+        sites: [www.chinawater.com.cn]
+    seed_queries: [水库, 水网, 抽水蓄能, 防洪, 灌区, 水电站, 水资源调度]
