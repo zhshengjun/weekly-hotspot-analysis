@@ -1,6 +1,6 @@
 # PDF 周报格式
 
-当用户明确要求 PDF 时，先按 `SKILL.md` 完成资讯抓取、核验、去重、分类和摘要，再把最终报告整理为结构化 JSON，交给 `scripts/render_weekly_pdf.py` 生成 PDF。
+仅当用户明确要求输出 PDF 时，才按 `SKILL.md` 完成资讯抓取、核验、去重、分类和摘要后，整理结构化 JSON，交给 `scripts/render_weekly_pdf.py` 生成 PDF。默认交付是在聊天中返回报告正文，不生成 PDF。
 
 ## 运行命令
 
@@ -10,6 +10,23 @@ python3 scripts/render_weekly_pdf.py report.json -o output/pdf/report.pdf
 ```
 
 默认样式来自 `references/pdf-style-template.json`，不依赖外部项目、浏览器或 HTML/CSS。
+
+## 执行闭环
+
+用户要求 PDF 时，生成 Markdown/JSON 不是完成状态。必须执行 renderer 并确认 PDF 文件存在：
+
+```bash
+python3 scripts/render_weekly_pdf.py report.json -o output/pdf/report.pdf
+test -f output/pdf/report.pdf
+```
+
+能运行 Python 校验时，至少抽检标题、分类名、总体判断和一个来源名称：
+
+```bash
+python3 -c "import pdfplumber; text='\\n'.join(p.extract_text() or '' for p in pdfplumber.open('output/pdf/report.pdf').pages); assert '本周热点分析' in text"
+```
+
+如果运行环境没有 Python、文件系统、命令执行能力，或无法使用 `reportlab`，只能交付报告正文降级结果，并在最终回复中明确说明无法在当前环境直接生成 PDF 文件。
 
 ## 报告 JSON
 
