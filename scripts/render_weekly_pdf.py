@@ -290,22 +290,24 @@ class EventItem(Flowable):
         c.drawCentredString(badge_w / 2, badge_y + 9, month)
 
         x = 64
-        y = self.height - 14
+        title_top = self.height - 6
         title_x = x
-        title_w = self.width - x
         if self.is_highlight():
+            badge_w = 28
+            badge_h = 14
+            line_h = self.st["event_title"].leading
+            badge_y = title_top - line_h + (line_h - badge_h) / 2
             c.setFillColor(hex_color("#e04a4a"))
-            c.roundRect(x, y - 2, 28, 14, 2, stroke=0, fill=1)
+            c.roundRect(x, badge_y, badge_w, badge_h, 2, stroke=0, fill=1)
             c.setFillColor(colors.white)
             c.setFont(self.font_name, 8)
-            c.drawCentredString(x + 14, y + 2, "重点")
+            c.drawCentredString(x + badge_w / 2, badge_y + 4, "重点")
             title_x += 38
-            title_w -= 38
-        self.title_p.drawOn(c, title_x, y - self.title_p.height + 8)
-        y -= self.title_p.height + 5
+        y = title_top - self.title_p.height
+        self.title_p.drawOn(c, title_x, y)
+        y -= 5
         if self.summary_p:
-            self.summary_p.drawOn(c, x, y - self.summary_p.height + 8)
-            y -= self.summary_p.height + 2
+            self.summary_p.drawOn(c, x, y - self.summary_p.height)
         c.setStrokeColor(hex_color("#dce7f3"))
         c.setDash(2, 2)
         c.line(0, 0, self.width, 0)
