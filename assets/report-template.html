@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>低空经济本周热点分析</title>
+  <style>
+    @page { size: A4; margin: 14mm 14mm 17mm; }
+    * { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body {
+      margin: 0;
+      background: #eef3f8;
+      color: #44536a;
+      font: 14px/1.65 "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    a { color: #1d4ed8; text-decoration: underline; word-break: break-all; }
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      display: flex;
+      justify-content: flex-end;
+      width: min(980px, calc(100% - 40px));
+      margin: 16px auto -16px;
+    }
+    .toolbar button {
+      border: 1px solid #d9e5f2;
+      background: #fff;
+      color: #17233d;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+    .page {
+      width: min(980px, calc(100% - 40px));
+      margin: 30px auto;
+      padding: 22px;
+      background: #fff;
+      box-shadow: 0 8px 28px rgba(15, 23, 42, .14);
+    }
+    .hero {
+      position: relative;
+      overflow: hidden;
+      min-height: 122px;
+      margin-bottom: 12px;
+      border-radius: 6px;
+      background: linear-gradient(125deg, #154a91 0%, #1e6fc8 100%);
+      color: #fff;
+      padding: 22px 26px 20px;
+    }
+    .hero::before, .hero::after {
+      content: "";
+      position: absolute;
+      border: 1px solid rgba(255, 255, 255, .18);
+      border-radius: 999px;
+      pointer-events: none;
+    }
+    .hero::before { width: 150px; height: 150px; right: -28px; top: -52px; }
+    .hero::after { width: 110px; height: 110px; right: 30px; bottom: -58px; }
+    .kicker {
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .13);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .16em;
+    }
+    h1 { position: relative; margin: 0 0 10px; font-size: 36px; line-height: 1.18; font-weight: 950; }
+    .meta { position: relative; margin: 0; color: rgba(255, 255, 255, .96); font-weight: 500; }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 0 0 12px;
+    }
+    .panel {
+      border: 1px solid #d9e5f2;
+      border-radius: 4px;
+      background: #f4f8fd;
+      padding: 12px 14px;
+    }
+    .panel h2 { margin: 0 0 8px; color: #1455a4; font-size: 17px; line-height: 1.35; font-weight: 900; }
+    .panel ul { margin: 0; padding-left: 1.25em; }
+    .panel li + li { margin-top: 4px; }
+    .section {
+      --section-color: #29549f;
+      --section-line-rgb: 41, 84, 159;
+      margin-top: 10px;
+      break-inside: avoid;
+    }
+    .section:nth-of-type(2) { --section-color: #387b6d; --section-line-rgb: 56, 123, 109; }
+    .section:nth-of-type(3) { --section-color: #a96a2d; --section-line-rgb: 169, 106, 45; }
+    .section-heading {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 10px;
+      break-after: avoid-page;
+      page-break-after: avoid;
+    }
+    .section-heading::after {
+      content: "";
+      flex: 1;
+      height: 2px;
+      background: linear-gradient(90deg, rgba(var(--section-line-rgb), .94) 0%, rgba(var(--section-line-rgb), .32) 70%, rgba(var(--section-line-rgb), 0) 100%);
+    }
+    .section-banner {
+      min-width: 96px;
+      margin: 0;
+      border-radius: 4px 14px 4px 14px;
+      background: var(--section-color);
+      color: #fff;
+      padding: 5px 14px 6px;
+      font-size: 16px;
+      line-height: 1.3;
+      font-weight: 800;
+    }
+    .insight-paragraph {
+      margin: 7px 0 8px;
+      padding: 10px 12px;
+      border-left: 2px solid var(--section-color);
+      background: #f6faff;
+      color: #3a4a61;
+      line-height: 1.62;
+      text-align: justify;
+    }
+    .insight-label { font-weight: 900; color: #142d48; }
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 54px 1fr;
+      gap: 10px;
+      margin: 0 0 9px;
+      padding-bottom: 9px;
+      border-bottom: 1px dashed #dce7f3;
+      page-break-inside: avoid;
+    }
+    .date-badge {
+      width: 48px;
+      height: 42px;
+      border-radius: 4px;
+      background: #eef5fd;
+      color: #1455a4;
+      text-align: center;
+      font-weight: 800;
+      line-height: 1;
+      padding: 5px 0 4px;
+    }
+    .date-badge .day { display: block; font-size: 17px; font-weight: 900; }
+    .date-badge .month { display: block; margin-top: 3px; font-size: 10px; font-weight: 400; color: #6f8193; }
+    .event-title { margin: 0 0 5px; color: #14233c; font-size: 16px; font-weight: 700; line-height: 1.35; }
+    .event-title .source { margin-left: 4px; color: #9aa8b8; font-size: 13px; font-weight: 400; }
+    .source-line { margin: 2px 0 6px; font-size: 13px; color: #8595ab; }
+    .event-desc { margin: 0; color: #44536a; line-height: 1.65; text-align: justify; }
+    .judgment {
+      margin: 14px 0 2px;
+      padding: 14px 16px;
+      color: #33445c;
+      background: #f8fbff;
+      border: 1px solid #d9e5f2;
+      border-left: 4px solid #29549f;
+      break-inside: avoid;
+    }
+    .judgment h2 { margin: 0 0 8px; color: #214d77; font-size: 18px; }
+    .judgment p { margin: 0; }
+    @media (max-width: 760px) {
+      .page, .toolbar { width: 100%; margin-left: 0; margin-right: 0; }
+      .page { padding: 14px; }
+      .grid { grid-template-columns: 1fr; }
+      h1 { font-size: 30px; }
+    }
+    @media print {
+      body { background: #fff; font-size: 9.5pt; }
+      .toolbar { display: none; }
+      .page { width: auto; margin: 0; padding: 0; box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar"><button onclick="window.print()">导出 PDF / 打印</button></div>
+  <main class="page">
+    <header class="hero">
+      <div class="kicker">WEEKLY HOTSPOT REPORT</div>
+      <h1>低空经济本周热点分析</h1>
+      <p class="meta">统计周期：2026-06-23 至 2026-06-30　领域：低空经济</p>
+    </header>
+    <div class="grid">
+      <section class="panel">
+        <h2>核心摘要</h2>
+        <ul>
+          <li>低空基础设施建设继续围绕起降点、航线和监管平台展开。</li>
+          <li>无人机物流与城市治理场景成为本周应用落地重点。</li>
+          <li>企业动态集中在适航、订单和运营服务能力建设。</li>
+        </ul>
+      </section>
+      <section class="panel">
+        <h2>本周焦点</h2>
+        <ul>
+          <li>低空基础设施项目密集推进，决定后续规模化运营的承载能力。</li>
+          <li>无人机物流场景持续扩展，是观察低空经济商业闭环的重要变量。</li>
+        </ul>
+      </section>
+    </div>
+    <section class="section">
+      <div class="section-heading"><h2 class="section-banner">政策监管与基础设施</h2></div>
+      <p class="insight-paragraph"><span class="insight-label">分类分析：</span>本周低空经济相关政策和基础设施信息集中在运行规则、起降设施和监管平台建设。此类动态说明低空经济正在从概念推广转向运行条件补齐，后续重点应观察空域协同、地方平台互联和项目验收进度。</p>
+      <article class="timeline-item">
+        <div class="date-badge"><span class="day">24</span><span class="month">6月</span></div>
+        <div>
+          <h4 class="event-title">地方低空飞行服务平台建设提速<span class="source"> / 示例民航主管部门</span></h4>
+          <p class="source-line">来源：<a href="https://caac.example.org/news/2026/06/24/low-altitude-service-platform.html">示例民航主管部门</a>；发布时间：2026-06-24</p>
+          <p class="event-desc">相关地方围绕低空飞行服务平台、航线管理和运行保障推进建设。该类设施是低空经济规模化运行的底座，影响无人机物流、巡检和应急等场景的合规运营效率。</p>
+        </div>
+      </article>
+      <article class="timeline-item">
+        <div class="date-badge"><span class="day">25</span><span class="month">6月</span></div>
+        <div>
+          <h4 class="event-title">多地推进低空起降设施规划<span class="source"> / 示例发展改革部门</span></h4>
+          <p class="source-line">来源：<a href="https://ndrc.example.org/policies/2026/06/25/low-altitude-infrastructure-plan.html">示例发展改革部门</a>；发布时间：2026-06-25</p>
+          <p class="event-desc">多地围绕低空起降点、通航机场和综合保障设施开展规划衔接。基础设施完善有助于降低低空应用试点成本，并为跨区域航线和常态化运营创造条件。</p>
+        </div>
+      </article>
+    </section>
+    <section class="section">
+      <div class="section-heading"><h2 class="section-banner">应用场景与项目落地</h2></div>
+      <p class="insight-paragraph"><span class="insight-label">分类分析：</span>应用端继续围绕物流配送、城市治理、应急巡检等高频场景推进。本周项目更强调真实运行场景和服务闭环，说明地方试点开始关注从演示飞行走向可复制运营。</p>
+      <article class="timeline-item">
+        <div class="date-badge"><span class="day">26</span><span class="month">6月</span></div>
+        <div>
+          <h4 class="event-title">无人机物流航线开展常态化试运行<span class="source"> / 示例主流媒体</span></h4>
+          <p class="source-line">来源：<a href="https://media.example.net/industry/2026/06/26/drone-logistics-route-trial.html">示例主流媒体</a>；发布时间：2026-06-26</p>
+          <p class="event-desc">部分城市推进无人机物流航线试运行，覆盖园区配送、医疗物资和即时零售等场景。物流场景具备频次高、路线相对稳定的特点，是验证低空经济商业化能力的重要入口。</p>
+        </div>
+      </article>
+      <article class="timeline-item">
+        <div class="date-badge"><span class="day">27</span><span class="month">6月</span></div>
+        <div>
+          <h4 class="event-title">低空巡检服务接入城市治理场景<span class="source"> / 示例城市管理部门</span></h4>
+          <p class="source-line">来源：<a href="https://city.example.gov.cn/updates/2026/06/27/low-altitude-inspection.html">示例城市管理部门</a>；发布时间：2026-06-27</p>
+          <p class="event-desc">低空巡检逐步接入城市治理、交通巡查和应急处置。该类应用能够提高现场感知效率，也对飞行审批、数据回传和多部门协同提出更高要求。</p>
+        </div>
+      </article>
+    </section>
+    <section class="section">
+      <div class="section-heading"><h2 class="section-banner">企业动态与产业配套</h2></div>
+      <p class="insight-paragraph"><span class="insight-label">分类分析：</span>企业侧动态集中在产品适航、运营服务和产业链协同。随着地方项目增加，企业竞争焦点从单一飞行器展示转向系统交付、运行服务和安全保障能力。</p>
+      <article class="timeline-item">
+        <div class="date-badge"><span class="day">28</span><span class="month">6月</span></div>
+        <div>
+          <h4 class="event-title">低空运营服务商加强航线运营能力<span class="source"> / 示例交易所公告</span></h4>
+          <p class="source-line">来源：<a href="https://exchange.example.com/disclosure/2026/06/28/low-altitude-operation-service.html">示例交易所公告</a>；发布时间：2026-06-28</p>
+          <p class="event-desc">相关企业披露低空运营、无人机服务或配套系统进展。企业能力建设将影响地方项目从试点采购转向持续运营，也决定产业链中平台、装备和服务环节的分工。</p>
+        </div>
+      </article>
+      <article class="timeline-item">
+        <div class="date-badge"><span class="day">29</span><span class="month">6月</span></div>
+        <div>
+          <h4 class="event-title">低空装备企业推进适航与订单交付<span class="source"> / 示例公司公告</span></h4>
+          <p class="source-line">来源：<a href="https://company.example.cn/investors/2026/06/29/airworthiness-delivery-update.html">示例公司公告</a>；发布时间：2026-06-29</p>
+          <p class="event-desc">低空装备企业围绕适航验证、批量交付和客户拓展披露进展。适航和交付能力是产业从示范走向规模应用的关键约束，后续需持续关注真实订单和运营数据。</p>
+        </div>
+      </article>
+    </section>
+    <section class="judgment">
+      <h2>总体判断</h2>
+      <p>本周低空经济延续基础设施补齐和应用场景落地并行的态势。政策与平台建设为规模化运营提供前提，物流、巡检等场景则验证商业闭环。下一步应重点关注地方平台互联、航线常态化运行、企业交付能力和安全监管协同。</p>
+    </section>
+  </main>
+</body>
+</html>

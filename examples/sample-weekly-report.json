@@ -20,16 +20,16 @@
         {
           "title": "地方低空飞行服务平台建设提速",
           "published_at": "2026-06-24",
-          "source_name": "中国民用航空局",
-          "source_url": "https://www.caac.gov.cn/",
+          "source_name": "示例民航主管部门",
+          "source_url": "https://caac.example.org/news/2026/06/24/low-altitude-service-platform.html",
           "ai_summary": "相关地方围绕低空飞行服务平台、航线管理和运行保障推进建设。该类设施是低空经济规模化运行的底座，影响无人机物流、巡检和应急等场景的合规运营效率。",
           "importance": "高"
         },
         {
           "title": "多地推进低空起降设施规划",
           "published_at": "2026-06-25",
-          "source_name": "国家发展改革委",
-          "source_url": "https://www.ndrc.gov.cn/",
+          "source_name": "示例发展改革部门",
+          "source_url": "https://ndrc.example.org/policies/2026/06/25/low-altitude-infrastructure-plan.html",
           "ai_summary": "多地围绕低空起降点、通航机场和综合保障设施开展规划衔接。基础设施完善有助于降低低空应用试点成本，并为跨区域航线和常态化运营创造条件。",
           "importance": "中"
         }
@@ -42,16 +42,16 @@
         {
           "title": "无人机物流航线开展常态化试运行",
           "published_at": "2026-06-26",
-          "source_name": "中国新闻网",
-          "source_url": "https://www.chinanews.com.cn/",
+          "source_name": "示例主流媒体",
+          "source_url": "https://media.example.net/industry/2026/06/26/drone-logistics-route-trial.html",
           "ai_summary": "部分城市推进无人机物流航线试运行，覆盖园区配送、医疗物资和即时零售等场景。物流场景具备频次高、路线相对稳定的特点，是验证低空经济商业化能力的重要入口。",
           "importance": "高"
         },
         {
           "title": "低空巡检服务接入城市治理场景",
           "published_at": "2026-06-27",
-          "source_name": "新华网",
-          "source_url": "https://www.xinhuanet.com/",
+          "source_name": "示例城市管理部门",
+          "source_url": "https://city.example.gov.cn/updates/2026/06/27/low-altitude-inspection.html",
           "ai_summary": "低空巡检逐步接入城市治理、交通巡查和应急处置。该类应用能够提高现场感知效率，也对飞行审批、数据回传和多部门协同提出更高要求。",
           "importance": "中"
         }
@@ -64,16 +64,16 @@
         {
           "title": "低空运营服务商加强航线运营能力",
           "published_at": "2026-06-28",
-          "source_name": "证券交易所公告",
-          "source_url": "https://www.szse.cn/",
+          "source_name": "示例交易所公告",
+          "source_url": "https://exchange.example.com/disclosure/2026/06/28/low-altitude-operation-service.html",
           "ai_summary": "相关企业披露低空运营、无人机服务或配套系统进展。企业能力建设将影响地方项目从试点采购转向持续运营，也决定产业链中平台、装备和服务环节的分工。",
           "importance": "中"
         },
         {
           "title": "低空装备企业推进适航与订单交付",
           "published_at": "2026-06-29",
-          "source_name": "上海证券交易所",
-          "source_url": "https://www.sse.com.cn/",
+          "source_name": "示例公司公告",
+          "source_url": "https://company.example.cn/investors/2026/06/29/airworthiness-delivery-update.html",
           "ai_summary": "低空装备企业围绕适航验证、批量交付和客户拓展披露进展。适航和交付能力是产业从示范走向规模应用的关键约束，后续需持续关注真实订单和运营数据。",
           "importance": "中"
         }

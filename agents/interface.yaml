@@ -1,7 +1,7 @@
 interface:
   # 中文说明：本周热点分析
   display_name: "Weekly Hotspot Analysis"
-  # 中文说明：抓取一周资讯并生成中文热点分析正文
-  short_description: "Collect weekly news into a sourced Chinese analysis"
-  # 中文说明：围绕指定领域抓取本周重要资讯，输出《本周热点分析》正文，每条资讯标注来源、发布时间并附 AI 摘要。
-  default_prompt: "Use $weekly-hotspot-analysis to collect this week's important news for a specified domain and output a Chinese weekly hotspot analysis with source, published time, and AI summary for every item."
+  # 中文说明：抓取一周资讯并生成可浏览器打开的中文热点分析 HTML
+  short_description: "Collect weekly news into a sourced Chinese HTML report"
+  # 中文说明：围绕指定领域抓取本周重要资讯，输出可浏览器打开的《本周热点分析》HTML，每条资讯标注来源、发布时间并附 AI 摘要。
+  default_prompt: "Use $weekly-hotspot-analysis to collect this week's important news for a specified domain and output a browser-openable Chinese weekly hotspot HTML report with source, published time, and AI summary for every item."

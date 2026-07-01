@@ -1,10 +1,10 @@
 # PDF 周报格式
 
-仅当用户明确要求输出 PDF 时，才按 `SKILL.md` 完成资讯抓取、核验、去重、分类和摘要后，整理结构化 JSON，交给 `scripts/render_weekly_pdf.py` 生成 PDF。默认交付是在聊天中返回报告正文，不生成 PDF。
+仅当用户明确要求输出 PDF 时，才按 `SKILL.md` 完成资讯抓取、核验、去重、分类和摘要后，整理结构化 JSON，交给 `scripts/render_weekly_pdf.py` 生成 PDF。默认交付是单文件 HTML，不生成 PDF。
 
 ## 运行命令
 
-优先使用跨环境包装脚本；它会寻找带 `reportlab` 的 Python runtime，再调用固定 renderer：
+优先使用跨环境包装脚本；它会寻找带 `reportlab` 的 Python runtime 并调用固定 renderer：
 
 ```bash
 scripts/render_pdf.sh examples/sample-weekly-report.json output/pdf/sample-weekly-report.pdf
@@ -16,7 +16,7 @@ Windows PowerShell 使用：
 scripts\render_pdf.ps1 examples\sample-weekly-report.json output\pdf\sample-weekly-report.pdf
 ```
 
-如果当前环境没有带 `reportlab` 的 Python，包装脚本会失败；此时按 Markdown 降级交付，不要声称 PDF 已生成。
+如果当前环境没有带 `reportlab` 的 Python，包装脚本会失败；此时交付默认 HTML，不要声称 PDF 已生成。
 
 底层 renderer 仍可直接调用：
 
@@ -42,7 +42,7 @@ test -f output/pdf/report.pdf
 python3 -c "import pdfplumber; text='\\n'.join(p.extract_text() or '' for p in pdfplumber.open('output/pdf/report.pdf').pages); assert '本周热点分析' in text"
 ```
 
-如果运行环境没有 Python、文件系统、命令执行能力，或无法使用 `reportlab`，只能交付报告正文降级结果，并在最终回复中明确说明无法在当前环境直接生成 PDF 文件。不要在线安装依赖、切换到 HTML/Word/LaTeX 或让 agent 自行设计 PDF。
+如果运行环境没有 Python、文件系统、命令执行能力，或无法使用 `reportlab`，只能交付默认 HTML 降级结果，并在最终回复中明确说明无法在当前环境直接生成 PDF 文件。不要在线安装依赖、切换到 Word/LaTeX 或让 agent 自行设计另一套 PDF。
 
 ## 报告 JSON
 
@@ -63,7 +63,7 @@ python3 -c "import pdfplumber; text='\\n'.join(p.extract_text() or '' for p in p
           "title": "资讯标题",
           "published_at": "2026-06-30",
           "source_name": "原始来源",
-          "source_url": "https://example.com",
+          "source_url": "https://source.example.org/article/2026/06/30/news-detail.html",
           "ai_summary": "单条 AI 摘要。",
           "importance": "高"
         }
@@ -82,4 +82,4 @@ python3 -c "import pdfplumber; text='\\n'.join(p.extract_text() or '' for p in p
 
 ## 版式口径
 
-PDF 参考低空经济周报的视觉语言：圆角蓝色标题区、不对称圆角栏目标题、左侧日期徽章、动态条目、标题来源链接和虚线分隔。不要把外部参考项目里的业务模块搬进来；当前 skill 没有的模块不需要新增。
+PDF 保持旧版 ReportLab 样式，仅作为用户明确要求 PDF 时的兼容交付。默认 HTML 参考低空经济周报的栏目视觉：圆角蓝色标题区、不对称圆角栏目标题、左侧日期徽章、动态条目、标题来源链接和虚线分隔；不要把外部参考项目里的业务模块搬进来。

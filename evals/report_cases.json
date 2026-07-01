@@ -2,20 +2,20 @@
   {
     "id": "low_altitude_default_chat",
     "prompt": "给我生成一份最新的低空经济周报",
-    "delivery": "chat_markdown",
-    "checks": ["uses_recent_period", "keeps_original_source_links", "includes_published_at", "has_3_to_6_categories"]
+    "delivery": "html",
+    "checks": ["uses_recent_period", "keeps_original_source_links", "includes_published_at", "has_3_to_6_categories", "renders_html_file"]
   },
   {
     "id": "unpreset_domain_default_chat",
     "prompt": "帮我做一份本周固废资源化领域热点分析",
-    "delivery": "chat_markdown",
-    "checks": ["semantic_query_expansion", "does_not_force_zhejiang_scope", "keeps_original_source_links"]
+    "delivery": "html",
+    "checks": ["semantic_query_expansion", "does_not_force_zhejiang_scope", "keeps_original_source_links", "avoids_homepage_sources", "renders_html_file"]
   },
   {
     "id": "sparse_week_disclosure",
     "prompt": "给我生成一份本周县域冷链物流政策周报",
-    "delivery": "chat_markdown",
-    "checks": ["expands_search_before_declaring_sparse", "does_not_fabricate_items", "explains_sparse_verified_news_when_needed"]
+    "delivery": "html",
+    "checks": ["expands_search_before_declaring_sparse", "does_not_fabricate_items", "explains_sparse_verified_news_when_needed", "keeps_period_dates_concrete"]
   },
   {
     "id": "pdf_delivery",
