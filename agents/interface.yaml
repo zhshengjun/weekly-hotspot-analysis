@@ -1,7 +1,7 @@
 interface:
   # 中文说明：本周热点分析
   display_name: "Weekly Hotspot Analysis"
-  # 中文说明：抓取一周资讯，内部核验来源和发布时间，生成附件式中文热点评论
-  short_description: "Collect weekly news into source-verified Chinese hotspot commentary"
-  # 中文说明：围绕指定领域抓取本周重要资讯，直接输出附件式《本周热点分析》正文；来源和发布时间内部核验，正文使用连续评论段落。
-  default_prompt: "Use $weekly-hotspot-analysis to collect this week's important news for a specified domain and return Chinese weekly hotspot commentary in ANBOUND-style sections. Verify source and published time internally; do not show a source appendix in the default output."
+  # 中文说明：抓取一周资讯，逐条标注来源、链接、发布时间和摘要，生成可交付中文热点评论
+  short_description: "Collect weekly news into deliverable Chinese hotspot briefings"
+  # 中文说明：围绕指定领域抓取本周重要资讯，直接输出附件式《本周热点分析》正文；包含本周要点，每条信息展示来源、来源链接、发布时间和 AI 摘要，用户要求时可扩展为 HTML/PDF。
+  default_prompt: "Use $weekly-hotspot-analysis to collect this week's important news for a specified domain and return Chinese weekly hotspot commentary in ANBOUND-style sections. Include weekly highlights, verify original source URL and published time, show source, source URL, published time, and AI summary for every item, and support HTML/PDF output when requested."

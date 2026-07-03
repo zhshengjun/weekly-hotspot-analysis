@@ -1,7 +1,0 @@
-.DS_Store
-.idea
-.playwright-mcp/
-__pycache__/
-*.pyc
-output/
-tmp/
