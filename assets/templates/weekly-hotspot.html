@@ -28,26 +28,8 @@
   /* ====== PAGE ====== */
   @page {
     size: A4;
-    margin: 20mm 22mm 22mm 22mm;
+    margin: 0;
     background: #f5f4ed;
-    @top-right {
-      content: string(section-title);
-      font-family: "TsangerJinKai02", "Source Han Serif SC", "Noto Serif CJK SC", "Songti SC", Georgia, serif;
-      font-size: 8pt; color: #6b6a64;
-    }
-    @bottom-center {
-      content: counter(page);
-      font-family: "TsangerJinKai02", "Source Han Serif SC", "Noto Serif CJK SC", "Songti SC", Georgia, serif;
-      font-size: 9pt; color: #6b6a64;
-    }
-  }
-  @page:first {
-    @top-right { content: ""; }
-    @bottom-center { content: ""; }
-  }
-  @page.cover-page {
-    @top-right { content: ""; }
-    @bottom-center { content: ""; }
   }
 
   /* ====== RESET ====== */
@@ -67,12 +49,22 @@
     --tag-bg:    #E4ECF5;
     --serif: "TsangerJinKai02", "Source Han Serif SC", "Noto Serif CJK SC", "Songti SC", "STSong", Georgia, serif;
     --sans: var(--serif);
+    --page-w: 210mm;
+    --page-h: 297mm;
+    --page-x: 24mm;
+    --page-top: 28mm;
+    --page-bottom: 26mm;
+    --generated-at: "{{生成时间}}";
+    --report-short-title: "{{报告短标题}}";
   }
 
   html, body { background: var(--parchment); }
 
   @media screen {
-    body { max-width: 210mm; margin: 0 auto; padding: 20mm 22mm 22mm 22mm; }
+    body {
+      background: #e8e6de;
+      padding: 12mm 0;
+    }
   }
 
   body {
@@ -82,6 +74,82 @@
     line-height: 1.55;
     letter-spacing: 0.3pt;
     widows: 3; orphans: 3;
+    counter-reset: page-num;
+  }
+
+  section {
+    width: var(--page-w);
+    min-height: var(--page-h);
+    margin: 0 auto;
+    padding: var(--page-top) var(--page-x) var(--page-bottom);
+    position: relative;
+    background: var(--parchment);
+    break-after: page;
+    counter-increment: page-num;
+  }
+  section:last-of-type {
+    break-after: auto;
+  }
+  .page-header,
+  .page-number {
+    position: absolute;
+    color: var(--near-black);
+    font-size: 10pt;
+    line-height: 1;
+  }
+  .page-header {
+    top: 13mm;
+    left: var(--page-x);
+    right: var(--page-x);
+  }
+  .page-header span:first-child {
+    position: absolute;
+    left: 0;
+  }
+  .page-header span:last-child {
+    position: absolute;
+    left: 50%;
+    text-align: left;
+    white-space: nowrap;
+  }
+  .page-number {
+    bottom: 13mm;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--stone);
+  }
+  .page-number::before {
+    content: counter(page-num);
+  }
+  .pdf-action {
+    position: fixed;
+    right: 16px;
+    top: 16px;
+    z-index: 10;
+    border: 0;
+    border-radius: 6px;
+    padding: 8px 12px;
+    background: var(--brand);
+    color: var(--ivory);
+    font: 14px var(--serif);
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(20, 20, 19, 0.18);
+  }
+  @media screen {
+    section {
+      margin-bottom: 10mm;
+      box-shadow: 0 10px 34px rgba(20, 20, 19, 0.18);
+    }
+  }
+
+  @media print {
+    html, body { background: var(--parchment); }
+    body { margin: 0; }
+    section {
+      margin: 0;
+      box-shadow: none;
+    }
+    .pdf-action { display: none; }
   }
 
   /* ====== COVER ====== */
@@ -90,7 +158,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 40mm 0 0 0;
+    padding-top: 40mm;
     break-after: page;
     page: cover-page;
   }
@@ -134,10 +202,7 @@
   .cover-meta strong { color: var(--dark-warm); font-weight: 500; }
 
   /* ====== HIGHLIGHTS (本周要点) ====== */
-  .highlights {
-    break-after: page;
-    padding-top: 8mm;
-  }
+  .highlights { break-after: page; }
   .highlights h1 {
     font-size: 22pt;
     font-weight: 500;
@@ -180,7 +245,7 @@
   .hl-accent { color: var(--brand); font-weight: 500; }
 
   /* ====== TOC (目录) ====== */
-  .toc { break-after: page; padding-top: 8mm; }
+  .toc { break-after: page; }
   .toc h1 {
     font-size: 22pt;
     font-weight: 500;
@@ -330,7 +395,7 @@
   .article:last-child { margin-bottom: 0; }
 
   /* ====== CHAPTER BREAK ====== */
-  .chapter { break-before: page; padding-top: 8mm; }
+  .chapter { break-before: page; }
 
   /* ====== DIVIDER ====== */
   .section-rule {
@@ -364,18 +429,21 @@
   /* ====== TENDER TABLE ====== */
   .tender-chapter table {
     table-layout: fixed;
-    font-size: 8.8pt;
+    font-size: 8pt;
+    line-height: 1.35;
   }
   .tender-chapter th {
     color: var(--ivory);
     background: var(--brand);
     border-bottom: none;
     font-weight: 500;
+    padding: 4pt 6pt;
   }
   .tender-chapter td {
     color: var(--dark-warm);
     background: rgba(250, 249, 245, 0.72);
     word-break: break-word;
+    padding: 3.5pt 6pt;
   }
   .tender-chapter tr:nth-child(even) td {
     background: rgba(228, 236, 245, 0.36);
@@ -411,7 +479,7 @@
     margin-bottom: 8pt;
   }
   .heatmap-slot {
-    min-height: 68mm;
+    height: 68mm;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -427,7 +495,8 @@
   }
   .echarts-map {
     width: 100%;
-    min-height: 68mm;
+    height: 68mm;
+    margin: 0 auto;
   }
   .heatmap-caption {
     color: var(--stone);
@@ -450,7 +519,7 @@
 
   /* ====== COLOPHON ====== */
   .colophon {
-    margin-top: 40pt;
+    margin-top: 18pt;
     padding-top: 14pt;
     border-top: 0.5pt solid var(--border);
     font-size: 9pt;
@@ -460,6 +529,7 @@
 </style>
 </head>
 <body>
+<button class="pdf-action" type="button" onclick="window.print()">导出 PDF ⌘/Ctrl+P</button>
 
 <!-- ═══════════════ COVER ═══════════════ -->
 <section class="cover">
@@ -477,6 +547,8 @@
 
 <!-- ═══════════════ 本周要点 ═══════════════ -->
 <section class="highlights">
+  <div class="page-header"><span>{{生成时间}}</span><span>{{报告短标题}}</span></div>
+  <div class="page-number"></div>
   <h1>本周要点</h1>
   <ol class="highlights-list">
     <!-- HIGHLIGHT_LOOP_START -->
@@ -487,6 +559,8 @@
 
 <!-- ═══════════════ 目录 ═══════════════ -->
 <section class="toc">
+  <div class="page-header"><span>{{生成时间}}</span><span>{{报告短标题}}</span></div>
+  <div class="page-number"></div>
   <h1>目录</h1>
 
   <div class="toc-section-label">〖分析专栏〗</div>
@@ -494,7 +568,7 @@
   <div class="toc-item">
     <span class="toc-num">{{序号}}</span>
     <span class="toc-title">{{分析专栏编辑主题标题}}</span>
-    <span class="toc-page">00</span>
+    <span class="toc-page">4</span>
   </div>
   <!-- TOC_ANALYSIS_LOOP_END -->
 
@@ -503,7 +577,7 @@
   <div class="toc-item">
     <span class="toc-num">{{序号}}</span>
     <span class="toc-title">{{优选信息编辑主题标题}}</span>
-    <span class="toc-page">00</span>
+    <span class="toc-page">5</span>
   </div>
   <!-- TOC_SELECTED_LOOP_END -->
 
@@ -511,19 +585,21 @@
   <div class="toc-item">
     <span class="toc-num">1</span>
     <span class="toc-title">本周招标项目表</span>
-    <span class="toc-page">00</span>
+    <span class="toc-page">6</span>
   </div>
 
   <div class="toc-section-label">〖地理空间热力图〗</div>
   <div class="toc-item">
     <span class="toc-num">1</span>
     <span class="toc-title">全国省级与浙江地级市招标热力图</span>
-    <span class="toc-page">00</span>
+    <span class="toc-page">7</span>
   </div>
 </section>
 
 <!-- ═══════════════ 分析专栏 ═══════════════ -->
 <section class="chapter">
+  <div class="page-header"><span>{{生成时间}}</span><span>{{报告短标题}}</span></div>
+  <div class="page-number"></div>
   <div class="chapter-num">01 · 分析专栏</div>
   <h1>分析专栏</h1>
 
@@ -552,6 +628,8 @@
 
 <!-- ═══════════════ 优选信息 ═══════════════ -->
 <section class="chapter">
+  <div class="page-header"><span>{{生成时间}}</span><span>{{报告短标题}}</span></div>
+  <div class="page-number"></div>
   <div class="chapter-num">02 · 优选信息</div>
   <h1>优选信息</h1>
 
@@ -575,6 +653,8 @@
 
 <!-- ═══════════════ 本周招标信息 ═══════════════ -->
 <section class="chapter tender-chapter">
+  <div class="page-header"><span>{{生成时间}}</span><span>{{报告短标题}}</span></div>
+  <div class="page-number"></div>
   <div class="chapter-num">03 · 本周招标信息</div>
   <h1>本周招标信息</h1>
   <p class="lead">{{招标栏目导语}}</p>
@@ -583,11 +663,11 @@
     <thead>
       <tr>
         <th style="width:8%;">序号</th>
-        <th style="width:30%;">项目名称</th>
-        <th style="width:20%;">采购主体</th>
-        <th style="width:10%;">地区</th>
+        <th style="width:24%;">项目名称</th>
+        <th style="width:18%;">采购主体</th>
+        <th style="width:8%;">地区</th>
         <th style="width:12%;">预算金额</th>
-        <th style="width:12%;">本周节点</th>
+        <th style="width:22%;">本周节点</th>
         <th style="width:8%;">链接</th>
       </tr>
     </thead>
@@ -610,6 +690,8 @@
 
 <!-- ═══════════════ 地理空间热力图 ═══════════════ -->
 <section class="chapter heatmap-chapter">
+  <div class="page-header"><span>{{生成时间}}</span><span>{{报告短标题}}</span></div>
+  <div class="page-number"></div>
   <div class="chapter-num">04 · 地理空间热力图</div>
   <h1>地理空间热力图</h1>
 
@@ -625,12 +707,29 @@
       <p class="heatmap-caption">{{浙江热力图摘要}}</p>
     </div>
   </div>
+
+  <!-- ═══════════════ COLOPHON ═══════════════ -->
+  <div class="colophon">
+    <p>《{{领域}}本周热点分析》由 AI 辅助生成，所有资讯均来源于公开可追溯的原始页面，发布时间和来源链接已逐条核验。分析判断基于已入选资讯，不代表任何机构立场。统计周期：{{开始日期}} 至 {{结束日期}}。</p>
+  </div>
 </section>
 
-<!-- ═══════════════ COLOPHON ═══════════════ -->
-<section class="colophon">
-  <p>《{{领域}}本周热点分析》由 AI 辅助生成，所有资讯均来源于公开可追溯的原始页面，发布时间和来源链接已逐条核验。分析判断基于已入选资讯，不代表任何机构立场。统计周期：{{开始日期}} 至 {{结束日期}}。</p>
+<!-- ═══════════════ STANDALONE COLOPHON ═══════════════ -->
+<section class="standalone-colophon">
+  <div class="page-header"><span>{{生成时间}}</span><span>{{报告短标题}}</span></div>
+  <div class="page-number"></div>
+  <div class="colophon">
+    <p>《{{领域}}本周热点分析》由 AI 辅助生成，所有资讯均来源于公开可追溯的原始页面，发布时间和来源链接已逐条核验。分析判断基于已入选资讯，不代表任何机构立场。统计周期：{{开始日期}} 至 {{结束日期}}。</p>
+  </div>
 </section>
 
+<script>
+document.addEventListener('keydown', function(event) {
+  if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'p') {
+    event.preventDefault();
+    window.print();
+  }
+});
+</script>
 </body>
 </html>

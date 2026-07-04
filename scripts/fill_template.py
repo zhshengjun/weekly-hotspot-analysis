@@ -12,6 +12,7 @@ import html
 import json
 import re
 from collections import Counter
+from datetime import datetime
 from pathlib import Path
 
 
@@ -24,6 +25,10 @@ ZHEJIANG_GEO = ROOT / "assets" / "geo" / "zhejiang_cities.json"
 
 def esc(value: object) -> str:
     return html.escape(str(value or ""), quote=True)
+
+
+def budget_display(value: object) -> str:
+    return str(value or "").strip().replace("万元", "万")
 
 
 def paragraphs(parts: list[str]) -> str:
@@ -106,6 +111,14 @@ def map_summary(rows: list[dict], empty: str) -> str:
     return "、".join(f"{normalize_region(str(item.get('name') or item.get('region')))}{int(item.get('value') or item.get('count') or 0)}项" for item in ranked)
 
 
+def generated_at(meta: dict) -> str:
+    value = str(meta.get("generated_at") or "").strip()
+    if value:
+        return value
+    now = datetime.now()
+    return f"{now.year}/{now.month}/{now.day} {now.hour:02d}:{now.minute:02d}"
+
+
 def heatmap_script(china_rows: list[dict], zhejiang_rows: list[dict]) -> str:
     if not china_rows and not zhejiang_rows:
         return ""
@@ -151,19 +164,20 @@ def heatmap_script(china_rows: list[dict], zhejiang_rows: list[dict]) -> str:
       return {{ name: full, value: value, itemStyle: {{ areaColor: color(value) }} }};
     }});
   }}
-  function render(id, mapName, geo, rows, zoom, center) {{
+  function render(id, mapName, geo, rows, layoutSize) {{
     var el = document.getElementById(id);
     if (!el || !window.echarts) return;
     echarts.registerMap(mapName, geo);
-    echarts.init(el, null, {{renderer: 'svg'}}).setOption({{
+    var chart = echarts.init(el, null, {{renderer: 'svg'}});
+    chart.setOption({{
       animation: false,
       tooltip: {{ trigger: 'item', formatter: function(p) {{ return shortName(p.name) + '：' + (p.value || 0) + '项'; }} }},
       series: [{{
         type: 'map',
         map: mapName,
         roam: false,
-        zoom: zoom,
-        center: center,
+        layoutCenter: ['50%', '50%'],
+        layoutSize: layoutSize,
         data: align(rows, geo),
         label: {{
           show: true,
@@ -175,9 +189,14 @@ def heatmap_script(china_rows: list[dict], zhejiang_rows: list[dict]) -> str:
         itemStyle: {{ areaColor: '#dbeaf6', borderColor: '#fff', borderWidth: 1 }}
       }}]
     }});
+    chart.resize();
+    if (window.ResizeObserver) {{
+      new ResizeObserver(function() {{ chart.resize(); }}).observe(el);
+    }}
+    window.addEventListener('resize', function() {{ chart.resize(); }});
   }}
-  render('china-heatmap', 'china', payload.chinaGeo, payload.china, 1.25, [104, 35]);
-  render('zhejiang-heatmap', 'zhejiang', payload.zhejiangGeo, payload.zhejiang, 1.0, [120, 29.15]);
+  render('china-heatmap', 'china', payload.chinaGeo, payload.china, '86%');
+  render('zhejiang-heatmap', 'zhejiang', payload.zhejiangGeo, payload.zhejiang, '78%');
 }})();
 </script>
 """
@@ -185,7 +204,7 @@ def heatmap_script(china_rows: list[dict], zhejiang_rows: list[dict]) -> str:
 
 def remove_optional_sections(html_text: str) -> str:
     html_text = re.sub(r"\n\s*<div class=\"toc-section-label\">〖本周招标信息〗</div>.*?<div class=\"toc-section-label\">〖地理空间热力图〗</div>.*?</div>\n", "\n", html_text, flags=re.S)
-    html_text = re.sub(r"\n<!-- ═══════════════ 本周招标信息 ═══════════════ -->.*?<!-- ═══════════════ COLOPHON ═══════════════ -->", "\n<!-- ═══════════════ COLOPHON ═══════════════ -->", html_text, flags=re.S)
+    html_text = re.sub(r"\n<!-- ═══════════════ 本周招标信息 ═══════════════ -->.*?<!-- ═══════════════ STANDALONE COLOPHON ═══════════════ -->", "\n<!-- ═══════════════ STANDALONE COLOPHON ═══════════════ -->", html_text, flags=re.S)
     return html_text
 
 
@@ -202,6 +221,8 @@ def fill(report: dict, template: Path) -> str:
         "作者": meta.get("author") or "",
         "摘要": meta.get("description") or "",
         "关键词": meta.get("keywords") or meta.get("domain") or "",
+        "生成时间": generated_at(meta),
+        "报告短标题": meta.get("short_title") or f"{meta.get('domain', '')}本周热点分析",
         "领域标签 · 如 \"现代物流\" / \"新能源\"": meta.get("label") or meta.get("domain") or "",
         "领域": meta.get("domain") or "",
         "开始日期": meta.get("start_date") or "",
@@ -236,7 +257,7 @@ def fill(report: dict, template: Path) -> str:
                 "项目名称": esc(item.get("project_name")),
                 "采购主体": esc(item.get("purchaser")),
                 "地区": esc(item.get("region")),
-                "预算金额": esc(item.get("budget") or item.get("budget_text")),
+                "预算金额": esc(budget_display(item.get("budget") or item.get("budget_text"))),
                 "本周节点": esc(item.get("node") or item.get("deadline") or item.get("published_at")),
                 "招标链接": esc(item.get("url")),
             }
@@ -250,6 +271,7 @@ def fill(report: dict, template: Path) -> str:
         simple["全国热力图摘要"] = simple["全国热力图摘要"] or map_summary(china_rows, "本周期全国暂无可汇总招标项目")
         simple["浙江热力图摘要"] = simple["浙江热力图摘要"] or map_summary(zhejiang_rows, "本周期浙江暂无可汇总招标项目")
         html_text = html_text.replace("</body>", heatmap_script(china_rows, zhejiang_rows) + "\n</body>")
+        html_text = re.sub(r"\n<!-- ═══════════════ STANDALONE COLOPHON ═══════════════ -->\s*<section class=\"standalone-colophon\">.*?</section>\n", "\n", html_text, flags=re.S)
     else:
         html_text = loop(html_text, "TENDER_ROW_LOOP", [])
         html_text = remove_optional_sections(html_text)

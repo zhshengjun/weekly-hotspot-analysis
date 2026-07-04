@@ -1,0 +1,273 @@
+{
+  "meta": {
+    "title": "低空经济一周要讯",
+    "domain": "低空经济",
+    "label": "低空经济",
+    "start_date": "2026-06-25",
+    "end_date": "2026-07-03",
+    "item_count": 8,
+    "category_count": 4,
+    "author": "weekly-hotspot-analysis",
+    "description": "基于公开网络来源生成的低空经济周报，不使用上传附件。",
+    "keywords": "低空经济, 无人机, 低空物流, 招标, 周报"
+  },
+  "highlights": [
+    {
+      "keyword": "采购牵引",
+      "body": "本周可核验低空直接网页主要集中在无人机服务、低空物流实训、反制设备和专业实训室等采购公告，需求从展示类场景转向运营与训练能力。"
+    },
+    {
+      "keyword": "物流底座",
+      "body": "政府网发布的物流运行数据继续显示高端制造和装备制造物流需求较快增长，低空物流项目仍需要嵌入更大的现代物流体系。"
+    },
+    {
+      "keyword": "人才补位",
+      "body": "教育发展“十五五”规划强调急需学科专业和产教协同，职业院校无人机实训室采购与这一人才供给方向形成呼应。"
+    },
+    {
+      "keyword": "安全并重",
+      "body": "公安侧无人机服务和反制设备采购并行出现，说明低空应用扩面后，飞行服务能力与低空安全治理能力需要同步建设。"
+    }
+  ],
+  "analysis": [
+    {
+      "title": "低空经济进入运营能力采购验证期",
+      "source_name": "中国政府采购网、国家发展改革委、中国政府网",
+      "source_url": "https://www.ndrc.gov.cn/fzggw/jgsj/dks/",
+      "published_at": "2026-06-25 至 2026-06-29",
+      "summary": "本周自动核验到的低空经济直接信息主要来自政府采购公告，覆盖公安无人机服务、低空无人物流实训中心、反制设备、无人机专业实训室和自然资源航拍监测。国家发展改革委低空经济发展司页面明确其职责包括低空经济战略、中长期规划和重大问题协调，说明行业已经进入更强调统筹和规范的阶段。中国政府网同期披露物流运行和教育规划信息，分别对应低空物流的需求底座和人才供给约束。",
+      "paragraphs": [
+        "从可核验网页看，本周低空经济的增量信号不是单一重磅政策，而是采购端的运营能力验证。汕尾公安采购无人机应用服务，柳州职业技术大学采购低空无人物流运营实训中心设备，柳州市公安局采购无人机侦测查打反制设备，广西、海南的院校采购无人机实训室或专业实训项目，这些公告共同指向一个变化：低空经济正在从“能不能飞”的概念展示，转向“谁来运营、如何训练、如何监管、如何进入日常业务”的能力建设。采购主体分布在公安、职业院校、自然资源和教育机构，说明需求不再只由单个产业园或展示项目推动，而是由公共服务、职业教育和行业管理场景共同拉动。",
+        "这组采购项目的意义在于，它们把低空经济拆成了更可执行的模块。低空物流实训中心采购的是无人机、控制平台、拆装操作台和配套自动化设备，目标不是一次性飞行表演，而是训练低空物流运营链条；公安应用服务和反制设备则分别对应“用无人机提升治理效率”和“防范低空黑飞风险”两侧能力；自然资源部门的无人机航拍监测把低空作业嵌入矿山储量动态监测，属于可持续、可复用的政务场景。低空经济要形成稳定需求，不能只依赖空中观光和临时演示，必须进入可预算、可采购、可验收的工作流，本周采购信息正好体现了这一点。",
+        "宏观环境也给这些项目提供了支撑。中国政府网披露，前五个月全国社会物流总额同比增长，高技术制造业和装备制造业相关物流需求保持较快增长；这意味着低空物流并不是孤立赛道，而是现代物流网络在特定场景中的补充能力。教育发展“十五五”规划提出优化学科专业设置、支持高校布局急需学科专业、深化产教协同，这与多地院校采购无人机应用技术实训条件相互呼应。低空经济若要从试点变成产业，核心瓶颈往往不是单架飞行器，而是飞手、运维、调度、空域合规、气象保障和安全处置等复合能力。",
+        "后续值得跟踪的变量有三个。第一，采购项目能否沉淀为常态化运营数据，例如飞行架次、服务响应时间、故障率和人员培训通过率，而不是停留在设备到货。第二，公安、自然资源、教育等部门需求能否复用同一套低空服务基础设施，减少重复建设。第三，国家层面低空经济规划和地方项目之间能否形成一致的技术、数据和安全接口。如果这些变量继续改善，低空经济的周度观察重点会从“哪里又发布政策”转向“哪些场景开始用预算验证真实需求”。"
+      ]
+    }
+  ],
+  "selected": [
+    {
+      "title": "运行底座：物流总额保持增长支撑低空物流试点",
+      "source_name": "中国政府网",
+      "source_url": "https://www.gov.cn/yaowen/liebiao/202606/content_7073593.htm",
+      "published_at": "2026-06-28",
+      "summary": "前五个月我国物流运行结构优化。",
+      "paragraphs": [
+        "中国物流与采购联合会披露，2026年1-5月全国社会物流总额为146.6万亿元，同比增长5.2%，高技术制造业、装备制造业相关物流需求在5月保持较快增长。低空物流的落地仍要服务于更大的物流网络，干支线、末端和特殊场景配送需要用真实物流需求校验经济性。"
+      ],
+      "scores": {
+        "tier1_source_authority": 5,
+        "tier1_info_density": 5,
+        "tier1_domain_relevance": 3,
+        "tier1_total": 90.0,
+        "tier2_timeliness": 5,
+        "tier2_influence": 4,
+        "tier2_scarcity": 3,
+        "tier2_total": 79.0,
+        "composite": 83.4
+      }
+    },
+    {
+      "title": "人才保障：教育规划强调急需学科和产教协同",
+      "source_name": "中国政府网",
+      "source_url": "https://www.gov.cn/zhengce/content/202606/content_7073640.htm",
+      "published_at": "2026-06-29",
+      "summary": "国务院印发教育发展“十五五”规划。",
+      "paragraphs": [
+        "国务院印发《教育发展“十五五”规划》，提出优化学科专业设置，支持高校布局急需学科专业，并完善科教、产教协同育人机制。低空经济的人才缺口集中在飞行、维护、调度、数据和安全复合岗位，职业院校无人机实训采购与这一政策方向形成衔接。"
+      ],
+      "scores": {
+        "tier1_source_authority": 5,
+        "tier1_info_density": 4,
+        "tier1_domain_relevance": 3,
+        "tier1_total": 82.0,
+        "tier2_timeliness": 5,
+        "tier2_influence": 4,
+        "tier2_scarcity": 3,
+        "tier2_total": 79.0,
+        "composite": 80.2
+      }
+    },
+    {
+      "title": "项目动态：柳州采购低空无人物流实训中心",
+      "source_name": "中国政府采购网",
+      "source_url": "http://www.ccgp.gov.cn/cggg/dfgg/gkzb/202606/t20260626_26818937.htm",
+      "published_at": "2026-06-26",
+      "summary": "柳州职业技术大学采购低空无人物流运营实训中心设备。",
+      "paragraphs": [
+        "柳州职业技术大学发布低空无人物流运营实训中心设备采购公告，预算105.3894万元，采购内容包括物流无人机、无人物流控制平台、拆装实训操作台和自动化设备。该项目把低空物流能力前移到职业教育训练环节，有利于补齐运营、拆装、调度和场景教学能力。"
+      ],
+      "scores": {
+        "tier1_source_authority": 5,
+        "tier1_info_density": 5,
+        "tier1_domain_relevance": 5,
+        "tier1_total": 100.0,
+        "tier2_timeliness": 4,
+        "tier2_influence": 3,
+        "tier2_scarcity": 4,
+        "tier2_total": 73.0,
+        "composite": 83.8
+      }
+    },
+    {
+      "title": "项目动态：海南建设无人机实训室",
+      "source_name": "中国政府采购网",
+      "source_url": "http://www.ccgp.gov.cn/cggg/dfgg/jzxcs/202606/t20260626_26825020.htm",
+      "published_at": "2026-06-26",
+      "summary": "海南省银行学校发布无人机实训室建设项目。",
+      "paragraphs": [
+        "海南省银行学校发布无人机实训室建设项目竞争性磋商公告，预算322.29万元，获取采购文件时间延续至7月3日。院校端项目预算较高，说明无人机教学正在从单机训练扩展到成体系的设备、软件和课程支撑。"
+      ],
+      "scores": {
+        "tier1_source_authority": 5,
+        "tier1_info_density": 5,
+        "tier1_domain_relevance": 4,
+        "tier1_total": 95.0,
+        "tier2_timeliness": 4,
+        "tier2_influence": 3,
+        "tier2_scarcity": 4,
+        "tier2_total": 73.0,
+        "composite": 81.8
+      }
+    },
+    {
+      "title": "场景应用：汕尾公安采购无人机应用服务",
+      "source_name": "中国政府采购网",
+      "source_url": "http://www.ccgp.gov.cn/cggg/dfgg/jzxcs/202606/t20260625_26815900.htm",
+      "published_at": "2026-06-25",
+      "summary": "汕尾市公安局无人机应用服务二次采购进入本周文件获取期。",
+      "paragraphs": [
+        "汕尾市公安局无人机应用服务二次采购预算285.8184万元，获取采购文件时间为6月27日至7月3日，响应文件开启时间为7月7日。公安侧采购从设备购买转向应用服务，表明低空能力正在嵌入巡查、执法辅助和应急响应等常态化治理场景。"
+      ],
+      "scores": {
+        "tier1_source_authority": 5,
+        "tier1_info_density": 5,
+        "tier1_domain_relevance": 5,
+        "tier1_total": 100.0,
+        "tier2_timeliness": 4,
+        "tier2_influence": 3,
+        "tier2_scarcity": 4,
+        "tier2_total": 73.0,
+        "composite": 83.8
+      }
+    },
+    {
+      "title": "安全治理：柳州采购无人机侦测查打反制设备",
+      "source_name": "中国政府采购网",
+      "source_url": "http://www.ccgp.gov.cn/cggg/dfgg/jzxtpgg/202606/t20260625_26814693.htm",
+      "published_at": "2026-06-25",
+      "summary": "柳州市公安局发布无人机侦测查打反制设备采购公告。",
+      "paragraphs": [
+        "柳州市公安局发布无人机侦测查打反制设备采购公告，预算55.27万元，响应文件开启时间为7月1日。低空应用增长会同步放大黑飞、扰航和敏感区域防控需求，反制设备采购体现出监管侧能力建设正在跟进。"
+      ],
+      "scores": {
+        "tier1_source_authority": 5,
+        "tier1_info_density": 5,
+        "tier1_domain_relevance": 5,
+        "tier1_total": 100.0,
+        "tier2_timeliness": 4,
+        "tier2_influence": 3,
+        "tier2_scarcity": 4,
+        "tier2_total": 73.0,
+        "composite": 83.8
+      }
+    },
+    {
+      "title": "场景应用：柳州自然资源采购无人机航拍监测",
+      "source_name": "中国政府采购网",
+      "source_url": "http://www.ccgp.gov.cn/cggg/dfgg/jzxcs/202606/t20260625_26811053.htm",
+      "published_at": "2026-06-25",
+      "summary": "柳州市自然资源和规划局采购采石场储量动态监测服务。",
+      "paragraphs": [
+        "柳州市自然资源和规划局发布2026年度无人机航拍露天采石场储量动态监测采购公告，预算66万元，响应文件开启时间为7月7日。自然资源监测具备周期性和数据化特征，适合检验无人机在低空政务作业中的稳定复用价值。"
+      ],
+      "scores": {
+        "tier1_source_authority": 5,
+        "tier1_info_density": 5,
+        "tier1_domain_relevance": 5,
+        "tier1_total": 100.0,
+        "tier2_timeliness": 4,
+        "tier2_influence": 3,
+        "tier2_scarcity": 4,
+        "tier2_total": 73.0,
+        "composite": 83.8
+      }
+    },
+    {
+      "title": "职业教育：广西采购无人机应用技术实训室",
+      "source_name": "中国政府采购网",
+      "source_url": "http://www.ccgp.gov.cn/cggg/dfgg/jzxcs/202606/t20260625_26818002.htm",
+      "published_at": "2026-06-25",
+      "summary": "广西国际商务职业技术学院采购无人机应用技术专业实训室项目。",
+      "paragraphs": [
+        "广西国际商务职业技术学院发布人工智能学院《无人机应用技术》专业实训室项目竞争性磋商公告，预算185.338万元，响应文件开启时间为7月6日。职业教育侧持续采购实训条件，说明低空经济人才供给正在从短训班转向专业化、课程化和设备化。"
+      ],
+      "scores": {
+        "tier1_source_authority": 5,
+        "tier1_info_density": 5,
+        "tier1_domain_relevance": 4,
+        "tier1_total": 95.0,
+        "tier2_timeliness": 4,
+        "tier2_influence": 3,
+        "tier2_scarcity": 4,
+        "tier2_total": 73.0,
+        "composite": 81.8
+      }
+    }
+  ],
+  "tenders": [
+    {
+      "project_name": "汕尾市公安局无人机应用服务（二次）",
+      "purchaser": "汕尾市公安局",
+      "region": "广东",
+      "city": "汕尾",
+      "budget": "285.8184万元",
+      "node": "6月27日至7月3日获取采购文件，7月7日响应文件开启",
+      "url": "http://www.ccgp.gov.cn/cggg/dfgg/jzxcs/202606/t20260625_26815900.htm"
+    },
+    {
+      "project_name": "柳州职业技术大学低空无人物流运营实训中心设备采购",
+      "purchaser": "柳州职业技术大学",
+      "region": "广西",
+      "city": "柳州",
+      "budget": "105.3894万元",
+      "node": "6月26日至7月3日获取招标文件，7月17日开标",
+      "url": "http://www.ccgp.gov.cn/cggg/dfgg/gkzb/202606/t20260626_26818937.htm"
+    },
+    {
+      "project_name": "柳州市公安局无人机侦测查打反制设备采购",
+      "purchaser": "柳州市公安局",
+      "region": "广西",
+      "city": "柳州",
+      "budget": "55.27万元",
+      "node": "7月1日响应文件开启",
+      "url": "http://www.ccgp.gov.cn/cggg/dfgg/jzxtpgg/202606/t20260625_26814693.htm"
+    },
+    {
+      "project_name": "人工智能学院《无人机应用技术》专业实训室项目",
+      "purchaser": "广西国际商务职业技术学院",
+      "region": "广西",
+      "city": "南宁",
+      "budget": "185.338万元",
+      "node": "7月2日获取采购文件截止，7月6日响应文件开启",
+      "url": "http://www.ccgp.gov.cn/cggg/dfgg/jzxcs/202606/t20260625_26818002.htm"
+    },
+    {
+      "project_name": "2026年度无人机航拍露天采石场储量动态监测",
+      "purchaser": "柳州市自然资源和规划局",
+      "region": "广西",
+      "city": "柳州",
+      "budget": "66万元",
+      "node": "7月2日获取采购文件截止，7月7日响应文件开启",
+      "url": "http://www.ccgp.gov.cn/cggg/dfgg/jzxcs/202606/t20260625_26811053.htm"
+    },
+    {
+      "project_name": "海南省银行学校无人机实训室建设项目",
+      "purchaser": "海南省银行学校",
+      "region": "海南",
+      "city": "海口",
+      "budget": "322.29万元",
+      "node": "6月26日至7月3日获取采购文件，7月13日响应文件开启",
+      "url": "http://www.ccgp.gov.cn/cggg/dfgg/jzxcs/202606/t20260626_26825020.htm"
+    }
+  ]
+}
