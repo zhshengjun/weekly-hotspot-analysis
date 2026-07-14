@@ -5,7 +5,7 @@ description: Collect or ingest weekly news and tender data for a user-specified 
 
 # 本周热点分析
 
-围绕用户指定领域，通过“信息搜集 → 评价 → 处理 → 交付”生成中文《本周热点分析》HTML 周报。报告样式参考 `weekly-hotspot-2026-06-26-2026-07-03.pdf`，内容结构为分析专栏、短讯式优选信息、招标列表和地理空间热力图。
+围绕用户指定领域，通过“信息搜集 → 评价 → 处理 → 交付”生成中文《本周热点分析》HTML 周报。报告样式参考 `weekly-hotspot-2026-06-26-2026-07-03.pdf`，内容结构为分析专栏、短讯式优选信息、招标信息（含地理空间热力图）、同行动态和最后的业务雷达。
 
 ## 领域边界
 
@@ -20,17 +20,19 @@ description: Collect or ingest weekly news and tender data for a user-specified 
 3. 过滤和去重。保留发布时间落在统计周期内、与指定领域直接相关、能找到原始来源链接的资讯；同一事件多源报道只保留最原始或最权威来源，必要时在内部 `notes` 记录补充来源。
 4. 评价筛选：读取 `references/scoring-rubric.md`。分析专栏不参与评分，按态势识别选择 1 到 2 个最能解释本周变化的主题；优选信息按两层六指标逐条评分后排序，选 8 到 15 条短讯；招标信息单独筛选，不参与资讯评分。优选信息必须保持来源多样，不能由单一网站或单一来源类型主导。
 5. 内容处理：读取 `references/report-structure.md` 和 `references/summary-prompts.md`。分析专栏写 3 到 5 个自然段；优选信息按低空周报形式，每条写 2 到 3 句话，重点交代主体、动作、时间、地点和意义。
-6. 结构化交付：把最终内容整理为 `report.json`，再读取 `references/html-rendering.md`，运行 `python3 scripts/fill_template.py report.json --output report.html` 填入 `assets/templates/weekly-hotspot.html`。
-7. HTML 检查：运行 `python3 scripts/build.py report.html --report-json report.json`。P0 未通过不得交付。发现缺少固定栏目、统计周期、来源链接、发布时间、短讯正文、资讯评分、招标表或热力图时，只修正问题部分再交付。
-8. PDF 交付：不要自动生成 PDF。用户需要 PDF 时，在浏览器打开 HTML 后用打印/导出 PDF 完成，最终 PDF 视觉应与参考 PDF 同一体系。
+5b. 同行动态搜集：读取综合类通用同行名单；领域确认后，提出 8 到 15 家专项同行候选，用户确认后纳入本期搜索。通过 Web 和微信公众号两个通道，以单位名、领域词及成果发布、专家发声、项目中标、合作签约、论坛活动、政策参与等衍生词检索本周动态，过滤去重后按单位分组写入 `peers`，无动态单位保留“本周无动态”。同行动态只作情报参考，不纳入优选信息评分，不写竞争评价或对标建议。
+6. 业务雷达：读取 `references/business-radar.md`。结合已入选资讯、招标项目和分析专栏，提出 3 到 6 条面向用户所属机构的业务拓展建议。每条必须写清拓展理由、事实依据、对应部门、具体业务产品、目标对象和建议优先级；不能脱离本周证据泛泛推荐。
+7. 结构化交付：把最终内容整理为 `report.json`，再读取 `references/html-rendering.md`，运行 `python3 scripts/fill_template.py report.json --output report.html` 填入默认模板；如需仪表盘式版式，使用 `--template assets/templates/weekly-hotspot-dashboard.html`。
+8. HTML 检查：运行 `python3 scripts/build.py report.html --report-json report.json`。P0 未通过不得交付。发现缺少固定栏目、统计周期、来源链接、发布时间、短讯正文、资讯评分、同行动态、业务雷达、招标表或热力图时，只修正问题部分再交付。
+9. PDF 交付：不要自动生成 PDF。用户需要 PDF 时，在浏览器打开 HTML 后用打印/导出 PDF 完成，最终 PDF 视觉应与参考 PDF 同一体系。
 
 ## 交付方式
 
 分两步交付：
 
 1. **第一步 — report.json**：整理最终结构化数据，作为模板填入输入。
-2. **第二步 — HTML 预览**：将 `report.json` 填入 `assets/templates/weekly-hotspot.html`，生成可浏览器打开的 HTML 文件。用户明确说“不用渲染”时跳过；不要自动生成 PDF。
-3. **第三步 — 对话摘要**：在最终回复中给出 HTML 路径和验证结果，不附加候选池、剔除池或来源明细表。
+2. **第二步 — HTML 预览**：将 `report.json` 填入 `assets/templates/weekly-hotspot.html`，或按需求使用 `assets/templates/weekly-hotspot-dashboard.html`，生成可浏览器打开的 HTML 文件。用户明确说“不用渲染”时跳过；不要自动生成 PDF。
+3. **第三步 — 对话摘要**：在最终回复中给出 HTML 路径、验证结果和业务雷达摘要；不附加候选池、剔除池或来源明细表。
 
 ## 执行闭环
 
@@ -40,7 +42,9 @@ description: Collect or ingest weekly news and tender data for a user-specified 
 2. 分类聚合闭环：初分分类后检查是否控制在 3 到 6 类；过散则合并，过粗则拆分；同类资讯超过 20 条时按主题簇聚合。
 3. 资讯评分闭环：优选信息候选必须按两层六指标打分；分数缺失、指标越界或综合分公式不一致时，先修正评分再排序。分析专栏候选和招标数据不强制打分。
 4. 判断支撑闭环：生成分析专栏和优选信息后，检查每条核心判断是否有已入选资讯支撑；无证据则删除或改写为可由事实支撑的审慎判断。优选信息不得写成长评论，必须保持 2 到 3 句话的要讯形态。
-5. 交付自检闭环：生成 HTML 后检查本周要点、目录、分析专栏、优选信息、招标表、热力图、来源核验、重复资讯、逐条来源链接、逐条发布时间和可见元数据；缺项只补问题部分，不重写全文。
+5. 同行动态闭环：检查通用同行名单是否全部保留、专项同行是否有确认依据、动态是否处于统计周期内、是否与领域相关、是否按单位分组、是否展示来源/时间/链接/摘要；无动态单位不得删除。同行动态不进入优选信息评分，不写“竞争分析”“对标建议”。
+6. 业务雷达闭环：逐条核对建议是否回答“为什么现在拓展、依据哪条热点或哪类招标、由哪个部门牵头、形成什么业务产品、面向什么客户”；没有本周证据支撑的建议不得进入正文。
+7. 交付自检闭环：生成 HTML 后检查本周要点、目录、分析专栏、优选信息、招标表、热力图、同行动态、业务雷达、来源核验、重复资讯、逐条来源链接、逐条发布时间和可见元数据；缺项只补问题部分，不重写全文。
 
 ## 结构与渲染规则
 
@@ -54,6 +58,7 @@ description: Collect or ingest weekly news and tender data for a user-specified 
 - 不要引用没有发布时间的资讯；如果页面只有相对时间，先换算为具体日期并说明依据。
 - 不要把同一事件拆成多条重复资讯。
 - 不要让单一网站、单一平台或单一信息类型占据优选信息主体；采购、招标、公告类信息可以入选，但不能替代政策、产业、技术、企业、地方和媒体等多类型来源。
+- 用户上传的招标 Excel/CSV 只用于“招标信息”章节及其地理空间热力图；除非用户明确要求制作招标专题，否则不得把上传表中的项目放入“优选信息”。
 - 不要纳入缺少来源链接或发布时间的动态；默认正文必须在每条信息下展示来源名称、发布时间和来源链接。
 - 不要在最终正文中展示原文文章标题；原文标题只用于内部核验和理解。
 - 不要在正文末尾附“核验来源”“参考来源”“来源列表”等来源汇总区块；来源名称、发布时间和来源链接只保留在每条正文标题下的元数据行。
@@ -63,6 +68,7 @@ description: Collect or ingest weekly news and tender data for a user-specified 
 - 不要写“总体判断”栏目；不要写“最终分析结论”。
 - 不要把 AI 分析写成标题改写、普通摘要或字段式“AI分析：”；必须用连续段落包含事实、判断依据、影响链条、约束条件和下一步关注变量。
 - 不要让目录出现空白编号；目录标题必须与正文中的编辑主题标题一致。
+- 招标栏目导语只写主题范围和筛选口径，不得写“本栏目根据用户提供的……”或披露用户上传文件名；可直接写“围绕……项目进行筛选展示”。
 - 不要让正文条目缺少 `〖〗` 标题，或出现只有 `〖` 没有 `〗` 的残缺标题。
 - 不要跳过报告自检闭环；最终报告缺少固定层级时必须补齐。
 - 不要自动生成 PDF；PDF 由用户从 HTML 预览页导出。
@@ -74,8 +80,10 @@ description: Collect or ingest weekly news and tender data for a user-specified 
 - `references/report-structure.md`：报告层级、字段要求、`report.json` 结构和硬失败格式。
 - `references/html-rendering.md`：HTML 模板映射、占位符填充、招标/热力图渲染和浏览器导出 PDF。
 - `references/summary-prompts.md`：单条评论式分析、目录、栏目分析和自检的提示词。
+- `references/business-radar.md`：业务雷达的证据链、部门映射、业务产品和建议写法。
 - `references/checklist.md`：交付前 P0/P1/P2 质量门禁。
 - `references/domain-presets.yaml`：领域预设、别名、信源和种子查询。
-- `assets/templates/weekly-hotspot.html`：HTML 排版模板，用于生成最终浏览器预览和用户导出的 PDF。
+- `assets/templates/weekly-hotspot.html`：默认研究简报式 HTML 排版模板，用于生成最终浏览器预览和用户导出的 PDF。
+- `assets/templates/weekly-hotspot-dashboard.html`：新增仪表盘式 HTML 排版模板，支持同一份 `report.json` 数据和同一套校验流程。
 - `scripts/fill_template.py`：从 `report.json` 填充 HTML，并内联 ECharts 全国/浙江热力图。
 - `scripts/build.py`：内置 HTML 检查脚本，支持占位符、结构和评分公式验证；不生成 PDF。

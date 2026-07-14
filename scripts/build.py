@@ -52,15 +52,31 @@ def check_structure(html_path: str) -> bool:
     with open(html_path, "r", encoding="utf-8") as f:
         content = f.read()
 
-    required = [
-        ('cover section', '.cover'),
-        ('highlights section', '.highlights'),
-        ('TOC section', '.toc'),
-        ('analysis chapter', '分析专栏'),
-        ('selected-info chapter', '优选信息'),
-        ('source metadata', 'source-meta'),
-        ('colophon', 'colophon'),
-    ]
+    is_dashboard = 'id="report-container"' in content and 'class="stats-grid"' in content
+    if is_dashboard:
+        required = [
+            ('dashboard header', 'class="header"'),
+            ('dashboard highlights', '本周核心要点'),
+            ('TOC section', 'class="toc-container"'),
+            ('analysis chapter', '深度分析专栏'),
+            ('selected-info chapter', '优选信息专栏'),
+            ('peer-activity chapter', '同行动态'),
+            ('business-radar chapter', '业务雷达'),
+            ('source metadata', 'source-meta'),
+            ('colophon', 'colophon'),
+        ]
+    else:
+        required = [
+            ('cover section', '.cover'),
+            ('highlights section', '.highlights'),
+            ('TOC section', '.toc'),
+            ('analysis chapter', '分析专栏'),
+            ('selected-info chapter', '优选信息'),
+            ('peer-activity chapter', '同行动态'),
+            ('business-radar chapter', '业务雷达'),
+            ('source metadata', 'source-meta'),
+            ('colophon', 'colophon'),
+        ]
     all_ok = True
     for name, marker in required:
         if marker not in content:
@@ -86,12 +102,55 @@ def check_report_json(report_path: str, html_path: str) -> bool:
     """Verify selected news scoring fields and formula."""
     data = json.loads(Path(report_path).read_text(encoding="utf-8"))
     html_text = Path(html_path).read_text(encoding="utf-8")
+    radar = data.get("business_radar") or []
+    radar_required = ("radar_type", "title", "reason", "departments", "advice", "priority")
+    all_ok = True
+    if len(radar) < 3 or len(radar) > 6:
+        print(f"[FAIL] Business radar must contain 3 to 6 items; got {len(radar)}.")
+        all_ok = False
+    for index, item in enumerate(radar, 1):
+        missing = [field for field in radar_required if not str(item.get(field, "")).strip()]
+        if missing:
+            print(f"[FAIL] Business radar item {index} is missing: {', '.join(missing)}")
+            all_ok = False
+    radar_types = {str(item.get("radar_type", "")).strip() for item in radar}
+    required_radar_types = {"咨政建言", "业务拓展", "前瞻研究"}
+    if not required_radar_types.issubset(radar_types):
+        print("[FAIL] Business radar must include 咨政建言、业务拓展、前瞻研究 three types.")
+        all_ok = False
+    if "业务雷达" not in html_text:
+        print("[FAIL] Business radar data exists but HTML section is missing.")
+        all_ok = False
+    else:
+        print("[PASS] Business radar fields and HTML section are present.")
+    peers = data.get("peers")
+    if not isinstance(peers, dict):
+        print("[FAIL] report.json must contain a peers object.")
+        all_ok = False
+    else:
+        peer_groups = peers.get("items") or []
+        peer_required = ("title", "type", "source_name", "source_url", "published_at", "source_type", "summary")
+        for group_index, group in enumerate(peer_groups, 1):
+            if not str(group.get("org_name", "")).strip():
+                print(f"[FAIL] Peer group {group_index} is missing org_name.")
+                all_ok = False
+            for item_index, item in enumerate(group.get("items") or [], 1):
+                missing = [field for field in peer_required if not str(item.get(field, "")).strip()]
+                if missing:
+                    print(f"[FAIL] Peer item {group_index}.{item_index} is missing: {', '.join(missing)}")
+                    all_ok = False
+                if str(item.get("source_type", "")).strip().lower() not in {"web", "wechat"}:
+                    print(f"[FAIL] Peer item {group_index}.{item_index} source_type must be web or wechat.")
+                    all_ok = False
+        if "同行动态" not in html_text:
+            print("[FAIL] Peer data exists but HTML section is missing.")
+            all_ok = False
+        else:
+            print(f"[PASS] Peer activity section is present ({len(peer_groups)} units).")
     selected = data.get("selected") or data.get("highlights_news") or []
     if not selected:
         print("[WARN] No selected news found in report.json; scoring check skipped.")
-        all_ok = True
     else:
-        all_ok = True
         if len(selected) < 8 or len(selected) > 15:
             print(f"[FAIL] Selected news count must be 8 to 15 items; got {len(selected)}.")
             all_ok = False
@@ -179,7 +238,14 @@ def check_report_json(report_path: str, html_path: str) -> bool:
             all_ok = False
 
     tenders = data.get("tenders") or []
-    tender_markers = ("tender-table", "本周招标信息", "地理空间热力图", "china-heatmap", "zhejiang-heatmap")
+    # Check rendered sections only. The editor JavaScript contains tender field
+    # labels even when the report has no tender data.
+    is_dashboard = 'id="report-container"' in html_text and 'class="stats-grid"' in html_text
+    tender_markers = (
+        ('<div class="data-table-wrapper"', 'id="china-heatmap"', 'id="zhejiang-heatmap"')
+        if is_dashboard else
+        ('<section class="chapter tender-chapter"', '<table class="tender-table"', 'id="china-heatmap"', 'id="zhejiang-heatmap"')
+    )
     if tenders:
         missing = [marker for marker in tender_markers if marker not in html_text]
         if missing:

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{文档标题}} · 本周热点分析</title>
+<meta name="author" content="{{作者}}">
+<meta name="description" content="{{摘要}}">
+<meta name="generator" content="weekly-hotspot-analysis">
+<style>
+  /* ====== RESET & BASE ====== */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background-color: #eef1f5;
+    color: #2d2d2d;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 32px 0;
+  }
+  #report-container { width: 840px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px; }
+
+  /* ====== PAGE CONTAINER ====== */
+  .page {
+    width: 100%; min-height: 1414px;
+    background-color: #ffffff;
+    padding: 36px 40px 32px 40px;
+    box-shadow: 0 2px 24px rgba(0,0,0,0.06);
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    page-break-after: always;
+  }
+  .page:last-child { page-break-after: auto; }
+
+  /* ====== HEADER ====== */
+  .header {
+    background: linear-gradient(105deg, #152f5e 0%, #1f4599 40%, #2d6bc4 100%);
+    border-radius: 6px; padding: 24px 32px; color: #ffffff;
+    margin-bottom: 24px; flex-shrink: 0;
+  }
+  .header-top-tag {
+    background-color: rgba(255,255,255,0.12);
+    padding: 3px 14px; border-radius: 3px;
+    font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+    display: inline-block; margin-bottom: 16px;
+  }
+  .header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; letter-spacing: 3px; }
+  .header .date-meta { font-size: 13px; opacity: 0.85; display: flex; justify-content: space-between; line-height: 1.5; }
+
+  /* ====== STATS GRID ====== */
+  .stats-grid {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 0;
+    margin-bottom: 24px; flex-shrink: 0;
+    border: 1px solid #e8ecf2; border-radius: 6px; overflow: hidden;
+  }
+  .stat-item {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 16px 8px; background: #fafbfd;
+    border-right: 1px solid #e8ecf2;
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-number { font-size: 22px; font-weight: 700; color: #1f4599; margin-bottom: 6px; line-height: 1; }
+  .stat-label { font-size: 11px; color: #7b8ba3; white-space: nowrap; letter-spacing: 0.5px; }
+
+  /* ====== SECTION TITLE (with horizontal rules) ====== */
+  .section-title-wrap {
+    display: flex; align-items: center; justify-content: center;
+    margin: 28px 0 18px 0; position: relative;
+  }
+  .section-title {
+    font-size: 15px; font-weight: 700; color: #1f4599;
+    background: #fff; padding: 0 20px; position: relative; z-index: 1;
+    letter-spacing: 1px;
+  }
+  .section-title-wrap::before, .section-title-wrap::after {
+    content: ''; flex: 1; height: 1px; background-color: #dce3ed;
+  }
+
+  /* ====== CATEGORY SUB-TITLE ====== */
+  .sub-title {
+    display: inline-block;
+    background-color: #ecf1f8; color: #1f4599;
+    padding: 4px 16px; border-radius: 3px;
+    font-size: 13px; font-weight: 700;
+    margin: 20px 0 10px 0; letter-spacing: 0.5px;
+  }
+
+  /* ====== TOC ====== */
+  .toc-container {
+    border: 1px solid #e8ecf2; border-radius: 6px;
+    padding: 20px 24px; margin-bottom: 24px;
+    background: #fcfdfe;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 3px 20px;
+    flex-shrink: 0;
+  }
+  .toc-header {
+    grid-column: 1 / -1;
+    font-size: 16px; font-weight: 700; color: #1f4599;
+    border-bottom: 2px solid #1f4599; padding-bottom: 12px; margin-bottom: 10px;
+  }
+  .toc-group-title {
+    grid-column: 1 / -1;
+    font-weight: 700; color: #1f4599; font-size: 13.5px;
+    margin-top: 8px; padding-bottom: 4px; border-bottom: 1px solid #eef2f7;
+  }
+  .toc-group-title:first-of-type { margin-top: 0; }
+  .toc-sub-group {
+    grid-column: 1 / -1;
+    font-size: 12px; font-weight: 600; color: #596b82;
+    margin-top: 4px; padding-left: 2px;
+  }
+  .toc-item {
+    font-size: 12px; color: #3d454f; line-height: 1.5; padding-left: 6px;
+  }
+
+  /* ====== CARD LIST & NEWS ITEMS ====== */
+  .card-list { display: flex; flex-direction: column; }
+  .news-item {
+    padding: 16px 0; border-bottom: 1px solid #eef1f6;
+    display: flex; align-items: flex-start; gap: 16px; break-inside: avoid;
+  }
+  .news-item:last-child { border-bottom: none; }
+  .news-date-box {
+    background: #f4f7fc; color: #1f4599; border-radius: 4px;
+    padding: 6px 10px; text-align: center; min-width: 48px; flex-shrink: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    border: 1px solid #e4ebf5;
+  }
+  .news-date-box .day { font-size: 14px; font-weight: 700; line-height: 1.2; }
+  .news-content { flex: 1; min-width: 0; }
+  .news-content h4 {
+    font-size: 14px; font-weight: 600; color: #1a1a1a;
+    line-height: 1.5; margin-bottom: 4px;
+  }
+  .news-content .source-info {
+    font-size: 12px; color: #8c95a3; margin-bottom: 6px; display: inline-block;
+  }
+  .news-content .source-info a { color: #3971ce; text-decoration: none; }
+  .news-content .source-info a:hover { text-decoration: underline; }
+  .news-content p {
+    font-size: 13px; color: #4a5058; line-height: 1.7; margin-top: 4px;
+  }
+
+  /* ====== HIGHLIGHTS (本周要点) ====== */
+  .point-item {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 10px 0; border-bottom: 1px solid #eef1f6; break-inside: avoid;
+  }
+  .point-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .point-marker {
+    background: #1f4599; color: #fff; border-radius: 50%;
+    width: 24px; height: 24px; flex-shrink: 0; margin-top: 1px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 11px;
+  }
+  .point-title { font-weight: 700; font-size: 13px; color: #1f4599; margin-bottom: 3px; }
+  .point-desc { font-size: 12.5px; color: #4a5058; line-height: 1.6; }
+
+  /* ====== SUMMARY CALLOUT ====== */
+  .summary-callout {
+    background-color: #f7f9fc; border-left: 4px solid #1f4599;
+    padding: 12px 18px; border-radius: 0 4px 4px 0;
+    margin: 18px 0 20px 0; font-size: 13px; color: #4a5058;
+    line-height: 1.65; break-inside: avoid;
+  }
+  .summary-callout strong { color: #1f4599; }
+
+  /* ====== TABLE ====== */
+  .data-table-wrapper {
+    margin: 16px 0; border-radius: 6px; border: 1px solid #e8ecf2;
+    overflow: hidden; break-inside: avoid;
+  }
+  .data-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .data-table th {
+    background-color: #f4f6fa; color: #1f4599;
+    border-bottom: 1px solid #dce3ed; padding: 10px 14px;
+    text-align: left; font-weight: 600; font-size: 12px;
+  }
+  .data-table td {
+    padding: 9px 14px; border-bottom: 1px solid #f1f4f8;
+    vertical-align: middle; color: #4a5058;
+  }
+  .data-table tr:last-child td { border-bottom: none; }
+  .table-note { font-size: 12px; color: #8c95a3; margin-bottom: 12px; }
+
+  /* ====== MAP ====== */
+  .map-section { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 16px 0 20px 0; break-inside: avoid; }
+  .map-box { border: 1px solid #e8ecf2; border-radius: 6px; padding: 16px; background: #fcfdfe; }
+  .map-box h4 { text-align: center; font-size: 13px; margin-bottom: 12px; color: #1f4599; font-weight: 600; }
+  .echarts-map { width: 100%; height: 180px; background: #f4f7fc; border-radius: 4px; border: 1px dashed #d4dbe6; }
+  .map-caption { font-size: 11px; color: #7b8ba3; text-align: center; margin-top: 6px; }
+
+  /* ====== PEERS & BUSINESS RADAR ====== */
+  .peer-org, .radar-item { padding: 14px 0; border-bottom: 1px solid #eef1f6; break-inside: avoid; }
+  .peer-org:last-child, .radar-item:last-child { border-bottom: none; }
+  .peer-org-title, .radar-title { font-size: 15px; color: #1f4599; margin-bottom: 8px; }
+  .peer-item { padding: 8px 0; }
+  .peer-item-title { font-size: 13px; font-weight: 600; color: #2d2d2d; line-height: 1.5; }
+  .peer-item-type { color: #3971ce; margin-right: 6px; }
+  .peer-item-meta { font-size: 11px; color: #8c95a3; margin-top: 4px; }
+  .peer-item-meta a { color: #3971ce; }
+  .peer-item-summary, .radar-field { font-size: 13px; color: #4a5058; line-height: 1.65; margin-top: 5px; }
+  .peer-empty { font-size: 12px; color: #a0aab4; }
+  .radar-label { color: #1f4599; font-weight: 700; }
+
+  /* ====== PAGE FOOTER ====== */
+  .page-footer {
+    margin-top: auto; padding-top: 14px;
+    border-top: 1px solid #e8ecf2;
+    display: flex; justify-content: space-between;
+    font-size: 11px; color: #a0aab4; letter-spacing: 0.5px;
+  }
+
+  /* ====== PRINT ====== */
+  @media print {
+    body { background: #fff; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; display: block; }
+    #report-container { width: 100%; gap: 0; display: block; }
+    .page {
+      width: 100%; min-height: auto; box-shadow: none; border-radius: 0;
+      margin: 0; padding: 18mm 20mm 16mm 20mm; overflow: visible;
+      page-break-after: always;
+    }
+    .page:last-child { page-break-after: auto; }
+    .stats-grid, .news-item, .point-item, .data-table-wrapper, .map-box, .summary-callout { break-inside: avoid; }
+  }
+  @page { size: A4; margin: 0; }
+</style>
+</head>
+<body>
+<div id="report-container">
+
+  <!-- ═══════ PAGE 1: Cover + TOC + Highlights ═══════ -->
+  <div class="page">
+    <header class="header">
+      <div class="header-top-tag">{{领域标签}} WEEKLY</div>
+      <h1>{{领域}}本周热点分析</h1>
+      <div class="date-meta">
+        <span>2026年第27周 · {{开始日期}}—{{结束日期}}</span>
+        <span>浙江省发展规划研究院基础设施研究所团队</span>
+      </div>
+    </header>
+
+    <div class="stats-grid">
+      <div class="stat-item"><span class="stat-number">{{入选资讯数}}</span><span class="stat-label">本周资讯条目</span></div>
+      <div class="stat-item"><span class="stat-number">2</span><span class="stat-label">深度观察文章</span></div>
+      <div class="stat-item"><span class="stat-number">{{要点数量}}</span><span class="stat-label">热点消息数量</span></div>
+      <div class="stat-item"><span class="stat-number">{{招标数量}}</span><span class="stat-label">招投标信息数量</span></div>
+      <div class="stat-item"><span class="stat-number">{{最大招标金额}}</span><span class="stat-label">最大金额</span></div>
+    </div>
+
+    <div class="toc-container">
+      <div class="toc-header">📑 目录</div>
+      <div class="toc-group-title">〖分析专栏〗</div>
+      <!-- TOC_ANALYSIS_LOOP_START -->
+      <div class="toc-item">{{序号}}. {{分析专栏编辑主题标题}}</div>
+      <!-- TOC_ANALYSIS_LOOP_END -->
+      <div class="toc-group-title">〖优选信息〗</div>
+      <!-- TOC_CATEGORY_LOOP_START -->
+      <div class="toc-sub-group">{{分类名称}}</div>
+      <!-- TOC_SELECTED_ITEM_LOOP_START -->
+      <div class="toc-item">{{序号}}. {{优选信息编辑主题标题}}</div>
+      <!-- TOC_SELECTED_ITEM_LOOP_END -->
+      <!-- TOC_CATEGORY_LOOP_END -->
+      {{招标目录条目}}
+    </div>
+
+    <div class="section-title-wrap"><div class="section-title">一 · 本周核心要点</div></div>
+    <div class="card-list">
+      <!-- HIGHLIGHT_LOOP_START -->
+      <div class="point-item">
+        <div class="point-marker">{{要点序号}}</div>
+        <div><div class="point-title">{{要点关键词}}</div><div class="point-desc">{{要点正文}}</div></div>
+      </div>
+      <!-- HIGHLIGHT_LOOP_END -->
+    </div>
+    <div class="summary-callout"><strong>摘要总结：</strong>{{报告短摘要}}</div>
+
+    <div class="page-footer">
+      <span>{{领域}}热点分析 · 2026年第27周</span>
+      <span>{{页码信息}}</span>
+    </div>
+  </div>
+
+  <!-- ═══════ PAGE 2: Analysis Column ═══════ -->
+  <div class="page">
+    <div class="section-title-wrap"><div class="section-title">二 · 深度分析专栏</div></div>
+    <div class="card-list">
+      <!-- ANALYSIS_ARTICLE_LOOP_START -->
+      <div class="news-item">
+        <div class="news-date-box"><span class="day">{{分析日期}}</span></div>
+        <div class="news-content">
+          <h4>{{编辑主题标题}}</h4>
+          <div class="source-info source-meta">来源：<a href="{{来源链接}}">{{来源名称}}</a></div>
+          <div class="summary-callout" style="margin:8px 0;"><strong>摘要：</strong>{{摘要 · 2-4 句话概括事实变化、重要性及影响}}</div>
+          {{__paragraphs__}}
+        </div>
+      </div>
+      <!-- ANALYSIS_ARTICLE_LOOP_END -->
+    </div>
+
+    <div class="page-footer">
+      <span>{{领域}}热点分析 · 2026年第27周</span>
+      <span>{{页码信息}}</span>
+    </div>
+  </div>
+
+  <!-- ═══════ PAGE 3+: Selected Info by Category ═══════ -->
+  <div class="page">
+    <div class="section-title-wrap"><div class="section-title">三 · 优选信息专栏</div></div>
+    <!-- SELECTED_CATEGORY_LOOP_START -->
+    <div class="sub-title">【{{分类名称}}】</div>
+    <div class="card-list">
+      <!-- SELECTED_ITEM_IN_CATEGORY_LOOP_START -->
+      <div class="news-item">
+        <div class="news-date-box"><span class="day">{{短讯日期}}</span></div>
+        <div class="news-content">
+          <h4>{{标签：编辑主题标题}}</h4>
+          <div class="source-info source-meta">来源：<a href="{{来源链接}}">{{来源名称}}</a></div>
+          {{__paragraphs__}}
+        </div>
+      </div>
+      <!-- SELECTED_ITEM_IN_CATEGORY_LOOP_END -->
+    </div>
+    <!-- SELECTED_CATEGORY_LOOP_END -->
+    <div class="page-footer">
+      <span>{{领域}}热点分析 · 2026年第27周</span>
+      <span>{{页码信息}}</span>
+    </div>
+  </div>
+
+  <!-- ═══════ TENDERS + HEATMAPS (if data) ═══════ -->
+  <div class="page">
+    <div class="section-title-wrap"><div class="section-title">四 · 招标信息</div></div>
+    {{招标表格或空状态}}
+    <div class="sub-title">【地理空间热力图】</div>
+    <div class="map-section">
+      <div class="map-box">
+        <h4>① 全国省级物流项目热力图</h4>
+        <div id="china-heatmap" class="echarts-map"></div>
+        <div class="map-caption">{{全国热力图摘要}}</div>
+      </div>
+      <div class="map-box">
+        <h4>② 浙江省地级市物流项目热力图</h4>
+        <div id="zhejiang-heatmap" class="echarts-map"></div>
+        <div class="map-caption">{{浙江热力图摘要}}</div>
+      </div>
+    </div>
+    <div class="page-footer">
+      <span>{{领域}}热点分析 · 2026年第27周</span>
+      <span>{{页码信息}}</span>
+    </div>
+  </div>
+
+  <!-- ═══════ PEERS ═══════ -->
+  <div class="page">
+    <div class="section-title-wrap"><div class="section-title">五 · 同行动态</div></div>
+    <!-- PEER_ORG_LOOP_START -->
+    <div class="peer-org">
+      <h2 class="peer-org-title">{{同行单位名称}}</h2>
+      {{同行动态内容}}
+    </div>
+    <!-- PEER_ORG_LOOP_END -->
+    <p class="table-note">共监测 {{同行单位数}} 家同行，收录 {{同行动态数}} 条本周动态。</p>
+    <div class="page-footer"><span>{{领域}}热点分析 · 2026年第27周</span><span>{{页码信息}}</span></div>
+  </div>
+
+  <!-- ═══════ BUSINESS RADAR ═══════ -->
+  <div class="page">
+    <div class="section-title-wrap"><div class="section-title">六 · 业务雷达</div></div>
+    <div class="sub-title">【咨政建言】</div>
+    <!-- RADAR_ADVISORY_LOOP_START -->
+    <div class="radar-item">
+      <h2 class="radar-title">〖{{业务雷达标题}}〗</h2>
+      <p class="radar-field"><span class="radar-label">开展理由：</span>{{开展理由}}</p>
+      <p class="radar-field"><span class="radar-label">涉及部门：</span>{{涉及部门}}</p>
+      <p class="radar-field"><span class="radar-label">业务建议：</span>{{业务建议}}</p>
+    </div>
+    <!-- RADAR_ADVISORY_LOOP_END -->
+    <div class="sub-title">【业务拓展】</div>
+    <!-- RADAR_BUSINESS_LOOP_START -->
+    <div class="radar-item">
+      <h2 class="radar-title">〖{{业务雷达标题}}〗</h2>
+      <p class="radar-field"><span class="radar-label">开展理由：</span>{{开展理由}}</p>
+      <p class="radar-field"><span class="radar-label">涉及部门：</span>{{涉及部门}}</p>
+      <p class="radar-field"><span class="radar-label">业务建议：</span>{{业务建议}}</p>
+    </div>
+    <!-- RADAR_BUSINESS_LOOP_END -->
+    <div class="sub-title">【前瞻研究】</div>
+    <!-- RADAR_FORWARD_LOOP_START -->
+    <div class="radar-item">
+      <h2 class="radar-title">〖{{业务雷达标题}}〗</h2>
+      <p class="radar-field"><span class="radar-label">开展理由：</span>{{开展理由}}</p>
+      <p class="radar-field"><span class="radar-label">涉及部门：</span>{{涉及部门}}</p>
+      <p class="radar-field"><span class="radar-label">业务建议：</span>{{业务建议}}</p>
+    </div>
+    <!-- RADAR_FORWARD_LOOP_END -->
+    <div class="page-footer"><span>{{领域}}热点分析 · 2026年第27周</span><span>{{页码信息}}</span></div>
+  </div>
+
+  <p class="colophon">《{{领域}}本周热点分析》由 AI 辅助生成，资讯来源、发布时间和来源链接均按公开页面核验。统计周期：{{开始日期}} 至 {{结束日期}}。</p>
+
+</div>
+{{ECharts脚本}}
+</body>
+</html>

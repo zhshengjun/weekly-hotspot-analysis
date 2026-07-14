@@ -11,6 +11,8 @@
 5. 〖优选信息〗：8 到 15 条短讯，按动态类型组织，如政策动态、科技创新、产业制造、场景应用、基础设施、企业动态；每条展示来源、发布时间、来源链接，正文写 2 到 3 句话。
 6. 〖本周招标信息〗：用户提供招标 Excel/CSV 或任务包含招标数据时追加；字段为序号、项目名称、采购主体、地区、预算金额、本周节点、链接。
 7. 〖地理空间热力图〗：招标数据存在时追加全国省级招标热力图和浙江省地级市招标热力图。
+8. 〖同行动态〗：放在招标信息和地理空间热力图之后、业务雷达之前，按单位条目式展示本周同行动态。每家单位保留记录；有动态时展示动态标题、动态类型、来源名称、发布时间、来源链接和 2 到 3 句话摘要，无动态时标注“本周无动态”。动态类型包括成果发布、专家发声、项目中标、合作签约、论坛活动、政策参与、其他。
+9. 〖业务雷达〗：放在同行动态之后，结合已入选资讯、分析专栏、同行动态和招标数据，展示 3 到 6 条业务拓展建议。每条包括建议标题、拓展理由、证据依据、牵头部门/协同部门、具体业务产品、目标对象和优先级。
 
 优选信息必须保持来源多样。达到 6 条及以上时，至少覆盖 3 个不同来源域名，任何单一域名不应超过 60%，且单一信息类型不应超过半数；资料确实稀少时，必须先补搜并在内部 `notes` 说明原因。
 
@@ -46,6 +48,8 @@
 - `highlights`：本周要点，字段为 `keyword`、`body`
 - `analysis`：分析专栏，字段为 `title`、`source_name`、`source_url`、`published_at`、`summary`、`paragraphs`
 - `selected`：优选短讯，字段同分析专栏，但 `paragraphs` 只放 2 到 3 句话；每条应保留 `scores`
+- `business_radar`：业务雷达，字段为 `radar_type`（咨政建言/业务拓展/前瞻研究）、`title`、`reason`、`departments`、`advice`、`priority`
+- `peers`：同行动态，结构为 `config` 和 `items`；`config` 包含 `general`、`domain_specific`、`search_queries`，`items` 按单位分组，每组为 `org_name` 和 `items` 数组；动态字段为 `title`、`type`、`source_name`、`source_url`、`published_at`、`source_type`（`web`/`wechat`）、`summary`
 - `tenders`：招标表，字段为 `project_name`、`purchaser`、`region`、`city`、`budget`、`node`、`url`
 - `heatmaps`：可选。缺省时脚本从 `tenders` 自动聚合全国和浙江热力图数据
 
